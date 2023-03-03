@@ -11,16 +11,16 @@ class CameraInput extends StatefulWidget {
 
 class _CameraInputState extends State<CameraInput> {
 
-  // File _image = File('assets/logo.png');
-  //
-  List <File> _images = [];
+  File _image = File('assets/logo.png');
+
+  //List <File> _images = [];
   //
   final imagePicker = ImagePicker();
   //
   Future getImage() async {
     final image = await imagePicker.pickImage(source: ImageSource.camera);
     setState(() {
-      // _image = File(image!.path);
+      _image = File(image!.path);
     });
   }
 
@@ -46,13 +46,13 @@ class _CameraInputState extends State<CameraInput> {
         centerTitle: true,
       ),
       body: Center(
-        //child: _image == null ? Text('No image selected') : Image.file(_image),
+        child: _image == null ? Text('No image selected') : Image.file(_image),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.deepPurple[700],
         child: Icon(Icons.camera_alt),
         onPressed: () {
-          //getImage();
+          getImage();
         },
       ),
     );
