@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:country_picker/country_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 
 
@@ -19,11 +21,89 @@ class SignUp extends StatefulWidget {
   State<SignUp> createState() => _SignUpState();
 }
 
+Future<Object> createUser(String username, String email, String password, String country, String birthdate, String foodPrefs) async {
+
+  try {
+
+    print("1-------------------------");
+    final response = await http.post(
+      Uri.parse('http://10.0.2.2:5000/sign_up'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'username': username,
+        'email': email,
+        'password': password,
+        'country': country,
+        'birth_date': birthdate,
+        'food_preferences': foodPrefs,
+      }),
+    );
+
+    print("2-------------------------");
+
+    print("status code${response.statusCode}");
+
+    return response;
+  }
+
+  catch (e){
+    print("exception-------------------------");
+    print(e);
+
+    return "string";
+  }
+
+
+}
+
 
 
 
 
 class _SignUpState extends State<SignUp> {
+
+  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final foodPrefController = TextEditingController();
+
+  String selectedCountry = "";
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    usernameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    foodPrefController.dispose();
+    super.dispose();
+  }
+
+
+  String _selectedDate = '';
+  String _dateCount = '';
+  String _range = '';
+  String _rangeCount = '';
+
+  void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
+
+    setState(() {
+      if (args.value is PickerDateRange) {
+        _range = '${DateFormat('dd/MM/yyyy').format(args.value.startDate)} -'
+        // ignore: lines_longer_than_80_chars
+            ' ${DateFormat('dd/MM/yyyy').format(args.value.endDate ?? args.value.startDate)}';
+      } else if (args.value is DateTime) {
+        _selectedDate = args.value.toString();
+      } else if (args.value is List<DateTime>) {
+        _dateCount = args.value.length.toString();
+      } else {
+        _rangeCount = args.value.length.toString();
+      }
+    });
+
+  }
 
 
 
@@ -33,46 +113,51 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Create an Account'),
+          title: const Text('Create a new Account'),
         ),
         body: Padding(
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   child: TextField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Username',
                       hintText: 'Enter your username',
                     ),
+                    controller: usernameController,
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.all(15),
                   child: TextField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Email',
                       hintText: 'Enter your email',
+
                     ),
+                    controller: emailController,
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.all(15),
                   child: TextField(
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Password',
                       hintText: 'Enter password',
                     ),
+                    controller: passwordController,
                   ),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(15),
                   child: TextField(
+                    obscureText: true,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Confirm Password',
@@ -81,7 +166,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   child: ElevatedButton(
                     onPressed: () {
                       showCountryPicker(
@@ -90,14 +175,18 @@ class _SignUpState extends State<SignUp> {
                         exclude: <String>['KN', 'MF'],
                         favorite: <String>['SE'],
                         //Optional. Shows phone code before the country name.
-                        showPhoneCode: true,
+                        showPhoneCode: false,
                         onSelect: (Country country) {
                           print('Select country: ${country.displayName}');
+                          setState(() {
+                            selectedCountry = country.displayName;
+                          });
+
                         },
                         // Optional. Sets the theme for the country list picker.
                         countryListTheme: CountryListThemeData(
                           // Optional. Sets the border radius for the bottomsheet.
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(40.0),
                             topRight: Radius.circular(40.0),
                           ),
@@ -113,20 +202,48 @@ class _SignUpState extends State<SignUp> {
                             ),
                           ),
                           // Optional. Styles the text in the search field
-                          searchTextStyle: TextStyle(
-                            color: Colors.blue,
+                          searchTextStyle: const TextStyle(
+                            color: Colors.deepPurple,
                             fontSize: 18,
                           ),
                         ),
                       );
                     },
-                    child: const Text('Show country picker'),
+                    child: Text('Country: $selectedCountry'),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(15),
+                  child: TextField(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Food Preferences',
+                      hintText: 'Enter your food preferences',
+                    ),
+                    controller: foodPrefController,
                   ),
                 ),
                 ElevatedButton(
-                  child: Text('Create Account'),
-                  onPressed: (){},
-                )
+                  child: const Text('Create Account'),
+                  onPressed: (){
+                     String username = usernameController.text;
+                     String email = emailController.text;
+                     String password = passwordController.text;
+                     String birthDate = "12/12/2000";
+                     String foodPreferences = foodPrefController.text;
+
+                     var response = createUser(username, email, password, selectedCountry, birthDate, foodPreferences);
+
+                     print("response------------------------------------------------------------------");
+                     print(response.toString());
+
+
+                     //Navigator.pushNamed(context, '/');
+
+
+                  },
+                ),
+
               ],
             )
         )

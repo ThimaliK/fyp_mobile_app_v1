@@ -16,43 +16,98 @@ class SignIn extends StatefulWidget {
   State<SignIn> createState() => _SignInState();
 }
 
+
+Future<http.Response> signIn(String email, String password) async {
+
+
+
+    print("1-------------------------");
+    final response = await http.post(
+      Uri.parse('http://10.0.2.2:5000/sign_in'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+
+        'username': email,
+        'password': password,
+
+      }),
+    );
+
+    print("2-------------------------");
+
+    print("status code${response.statusCode}");
+
+    print(response.body);
+
+    return response;
+
+
+
+
+}
+
 class _SignInState extends State<SignIn> {
+
+
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+
+    emailController.dispose();
+    passwordController.dispose();
+
+    super.dispose();
+  }
 
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(appBar: AppBar(
-      title: Text('Login to your Account'),
+      title: const Text('Login to your Account'),
     ),
         body: Padding(
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   child: TextField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Email',
                       hintText: 'Enter your email',
                     ),
+                    controller: emailController,
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   child: TextField(
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'Password',
                       hintText: 'Enter Password',
                     ),
+                    controller: passwordController,
                   ),
+
                 ),
                 ElevatedButton(
-                  child: Text('Log In'),
-                  onPressed: (){},
+                  child: const Text('Log In'),
+                  onPressed: (){
+                    String email = emailController.text;
+                    String password = passwordController.text;
+                    signIn(email, password);
+
+                    print("DONE!!!!!!");
+                  },
                 )
               ],
             )
