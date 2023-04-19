@@ -1,6 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fyp_mobile_app_v1/recipe.dart';
+import 'package:fyp_mobile_app_v1/recipe_collection.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+
 
 class CameraInput extends StatefulWidget {
   const CameraInput({Key? key}) : super(key: key);
@@ -14,6 +22,8 @@ class _CameraInputState extends State<CameraInput> {
   File _image = File('assets/logo.png');
 
   List <File> _images = [];
+
+  String data = "test";
 
   //
   final imagePicker = ImagePicker();
@@ -55,6 +65,68 @@ class _CameraInputState extends State<CameraInput> {
     // }
     }
 
+    Future getImagesFromGallery() async {
+      final image = await imagePicker.pickImage(source: ImageSource.gallery);
+      setState(() {
+        _image = File(image!.path);
+        _images.add(_image);
+        //getImage();
+      });
+
+    }
+
+
+  // var streamedResponse = await request.send();
+  // final responseData = await streamedResponse.stream.toBytes();
+  // final responseString = String.fromCharCodes(responseData);
+
+
+    //final List<File> _image = [];
+    Future uploadImages(String url) async {
+
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+
+
+      if (_images.length > 0) {
+        for (var i = 0; i < _images.length; i++) {
+          request.files.add(http.MultipartFile('files[]',
+              File(_images[i].path).readAsBytes().asStream(), File(_images[i].path).lengthSync(),
+              filename: _images[i].path));
+        }
+
+        // send
+        var response = await request.send();
+
+        final responseData = await response.stream.toBytes();
+        final responseString = String.fromCharCodes(responseData);
+
+        // var obj = json.decode(responseString);
+        //
+        // Recipe recipe = Recipe.fromJson(obj[0]);
+        //
+        // debugPrint(recipe.country);
+
+        // RecipeCollection recipeList = RecipeCollection.fromJson(obj);
+        //
+        // debugPrint(recipeList.recipeList.first.country);
+
+
+
+
+        // listen for response
+        // response.stream.transform(utf8.decoder).listen((value) {
+        //   debugPrint(value);
+        //
+        // });
+      }
+
+
+    }
+
+
+
+
+
 
 
     @override
@@ -82,61 +154,43 @@ class _CameraInputState extends State<CameraInput> {
                   )),
             ),
               SizedBox(height: 10.0,),
+              Text(data),
+              SizedBox(height: 10.0,),
               ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/recipe_list',
-                        arguments: {'photos': _images});
+                    getImage();
+                  },
+                  child: Text('Camera')
+              ),
+              SizedBox(height: 10.0,),
+              ElevatedButton(
+                  onPressed: () {
+                    getImagesFromGallery();
+                  },
+                  child: Text('Gallery')
+              ),
+              SizedBox(height: 10.0,),
+              ElevatedButton(
+                  onPressed: () {
+
+                    //getRequest();
+                    uploadImages('https://b464-2a00-23c4-f79c-c001-1df0-6241-9c78-7cc9.ngrok-free.app/recognise_ingredients');
+                    //postData();
+                    // Navigator.pushNamed(context, '/recipe_list',
+                    //     arguments: {'photos': _images});
                   },
                   child: Text('Get Recipes')
-              )
+              ),
+
               
             ]
           ),
 
-        // body: Center(
-        //   child: _image == null ? Text('No image selected') : Image.file(
-        //       _image),
-        // ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.deepPurple[700],
-          child: Icon(Icons.camera_alt),
-          onPressed: () {
-            getImage();
-          },
-        ),
+
 
       );
 
-      // return Scaffold(
-      //     appBar: AppBar(
-      //       title: const Text('Multiple Images'),
-      //     ),
-      //     body: SafeArea(
-      //       child: Column(
-      //         children: [
-      //           ElevatedButton(
-      //             onPressed: () {
-      //               selectImages();
-      //             },
-      //             child: const Text('Select Images'),
-      //           ),
-      //           Expanded(
-      //             child: Padding(
-      //               padding: const EdgeInsets.all(8.0),
-      //               child: GridView.builder(
-      //                   itemCount: imageFileList!.length,
-      //                   gridDelegate:
-      //                   const SliverGridDelegateWithFixedCrossAxisCount(
-      //                       crossAxisCount: 3),
-      //                   itemBuilder: (BuildContext context, int index) {
-      //                     return Image.file(File(imageFileList![index].path),
-      //                       fit: BoxFit.cover,);
-      //                   }),
-      //             ),
-      //           ),
-      //         ],
-      //       ),
-      //     ));
+
     }
 
 }
