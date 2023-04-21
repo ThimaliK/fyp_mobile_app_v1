@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fyp_mobile_app_v1/models/signup_model.dart';
 import 'package:fyp_mobile_app_v1/recipe.dart';
 import 'package:fyp_mobile_app_v1/recipe_collection.dart';
 import 'dart:io';
@@ -12,6 +13,8 @@ import 'package:country_picker/country_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
+import 'api/api_service.dart';
+
 
 
 class SignUp extends StatefulWidget {
@@ -21,42 +24,42 @@ class SignUp extends StatefulWidget {
   State<SignUp> createState() => _SignUpState();
 }
 
-Future<Object> createUser(String username, String email, String password, String country, String birthdate, String foodPrefs) async {
-
-  try {
-
-    print("1-------------------------");
-    final response = await http.post(
-      Uri.parse('http://10.0.2.2:5000/sign_up'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'username': username,
-        'email': email,
-        'password': password,
-        'country': country,
-        'birth_date': birthdate,
-        'food_preferences': foodPrefs,
-      }),
-    );
-
-    print("2-------------------------");
-
-    print("status code${response.statusCode}");
-
-    return response;
-  }
-
-  catch (e){
-    print("exception-------------------------");
-    print(e);
-
-    return "string";
-  }
-
-
-}
+// Future<Object> createUser(String username, String email, String password, String country, String birthdate, String foodPrefs) async {
+//
+//   try {
+//
+//     print("1-------------------------");
+//     final response = await http.post(
+//       Uri.parse('http://10.0.2.2:5000/sign_up'),
+//       headers: <String, String>{
+//         'Content-Type': 'application/json; charset=UTF-8',
+//       },
+//       body: jsonEncode(<String, String>{
+//         'username': username,
+//         'email': email,
+//         'password': password,
+//         'country': country,
+//         'birth_date': birthdate,
+//         'food_preferences': foodPrefs,
+//       }),
+//     );
+//
+//     print("2-------------------------");
+//
+//     print("status code${response.statusCode}");
+//
+//     return response;
+//   }
+//
+//   catch (e){
+//     print("exception-------------------------");
+//     print(e);
+//
+//     return "string";
+//   }
+//
+//
+// }
 
 
 
@@ -81,6 +84,23 @@ class _SignUpState extends State<SignUp> {
     super.dispose();
   }
 
+  late SignupRequestModel requestModel;
+
+  @override
+  void initState() {
+    super.initState();
+
+    requestModel = SignupRequestModel(
+      usernameController.text,
+      emailController.text,
+      passwordController.text,
+      selectedCountry,
+      '12/12/2000',
+      foodPrefController.text
+    );
+
+
+  }
 
   String _selectedDate = '';
   String _dateCount = '';
@@ -226,16 +246,47 @@ class _SignUpState extends State<SignUp> {
                 ElevatedButton(
                   child: const Text('Create Account'),
                   onPressed: (){
-                     String username = usernameController.text;
-                     String email = emailController.text;
-                     String password = passwordController.text;
-                     String birthDate = "12/12/2000";
-                     String foodPreferences = foodPrefController.text;
+                     // String username = usernameController.text;
+                     // String email = emailController.text;
+                     // String password = passwordController.text;
+                     // String birthDate = "12/12/2000";
+                     // String foodPreferences = foodPrefController.text;
 
-                     var response = createUser(username, email, password, selectedCountry, birthDate, foodPreferences);
+                    requestModel.username = usernameController.text;
+                    requestModel.email = emailController.text;
+                    requestModel.password = passwordController.text;
+                    requestModel.country = selectedCountry;
+                    requestModel.birthDate = "12/12/2000";
+                    requestModel.foodPreferences = foodPrefController.text;
 
-                     print("response------------------------------------------------------------------");
-                     print(response.toString());
+                     setState(() {
+
+                     });
+
+                    print(requestModel.toJson());
+
+                    APIService apiService = APIService();
+
+                    print('api service created');
+
+                    apiService.register(requestModel).then((value) => {
+                      if(value.response.isNotEmpty) {
+                        if(value.response == "registration successful") {
+                          Navigator.pushNamed(context, '/')
+                        } else {
+                          print("wrong${value.response}")
+                        }
+                      }
+                    });
+
+
+
+
+
+                     //var response = createUser(username, email, password, selectedCountry, birthDate, foodPreferences);
+
+                     //print("response------------------------------------------------------------------");
+                     //print(response.toString());
 
 
                      //Navigator.pushNamed(context, '/');

@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:fyp_mobile_app_v1/models/login_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import '../models/signup_model.dart';
 
 class APIService {
 
@@ -31,5 +35,72 @@ class APIService {
     }
 
   }
+
+  Future<LoginResponseModel> register(SignupRequestModel signupRequestModel) async{
+    String url = 'http://10.0.2.2:5000/sign_up';
+
+    print('in future sign up');
+
+    final response = await http.post(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'username': signupRequestModel.username,
+        'email': signupRequestModel.email,
+        'password': signupRequestModel.password,
+        'country': signupRequestModel.country,
+        'birth_date': signupRequestModel.birthDate,
+        'food_preferences': signupRequestModel.foodPreferences,
+
+      }),
+    );
+
+    print('status code: ${response.statusCode}');
+
+    if(response.statusCode == 200) {
+      print('status code: ${response.statusCode}');
+      return LoginResponseModel.fromJson(json.decode(response.body));
+    } else {
+      throw Exception("failed to load data");
+    }
+
+  }
+
+
+  Future<LoginResponseModel> retrieveRecipes(List <File> images) async{
+    String url = 'http://10.0.2.2:5000/recognise_ingredients';
+
+    print('in future recognise_ingredients');
+
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+
+    if (images.isNotEmpty) {
+
+      for (var i = 0; i < images.length; i++) {
+        request.files.add(http.MultipartFile('files[]',
+            File(images[i].path).readAsBytes().asStream(), File(images[i].path).lengthSync(),
+            filename: images[i].path));
+      }
+
+      var response = await request.send();
+
+      var responseString = await response.stream.bytesToString();
+
+      // final responseData = await response.stream.toBytes();
+      // final responseString = String.fromCharCodes(responseData);
+      //
+      // print('RESPONSE: $responseString');
+
+
+
+
+    }
+
+
+
+  }
+
 
 }
