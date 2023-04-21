@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fyp_mobile_app_v1/models/food_model.dart';
 import 'package:fyp_mobile_app_v1/models/login_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -68,39 +69,176 @@ class APIService {
 
   }
 
+  Future<String> foodRecognition(List<File> images) async{
 
-  Future<LoginResponseModel> retrieveRecipes(List <File> images) async{
-    String url = 'http://10.0.2.2:5000/recognise_ingredients';
+      String url = 'http://10.0.2.2:5000/recognise_ingredients';
 
-    print('in future recognise_ingredients');
+      print('in future recognise_ingredients');
 
-    var request = http.MultipartRequest('POST', Uri.parse(url));
+      var request = http.MultipartRequest('POST', Uri.parse(url));
 
-    if (images.isNotEmpty) {
+      print('1------------------------------------');
 
-      for (var i = 0; i < images.length; i++) {
-        request.files.add(http.MultipartFile('files[]',
-            File(images[i].path).readAsBytes().asStream(), File(images[i].path).lengthSync(),
-            filename: images[i].path));
+      if (images.isNotEmpty) {
+
+        for (var i = 0; i < images.length; i++) {
+          request.files.add(http.MultipartFile('files[]',
+              File(images[i].path).readAsBytes().asStream(), File(images[i].path).lengthSync(),
+              filename: images[i].path));
+        }
+
+        print('2------------------------------------');
+
+        var response = await request.send();
+
+        print('3------------------------------------');
+
+        var responsed = await response.stream.bytesToString(utf8);
+
+        if(response.statusCode == 200) {
+          print('status code: ${response.statusCode}');
+
+          print(responsed);
+
+          return responsed;
+
+        } else {
+          throw Exception("failed to load data");
+        }
+
+
       }
-
-      var response = await request.send();
-
-      var responseString = await response.stream.bytesToString();
-
-      // final responseData = await response.stream.toBytes();
-      // final responseString = String.fromCharCodes(responseData);
-      //
-      // print('RESPONSE: $responseString');
-
-
-
-
-    }
+      return "failed";
 
 
 
   }
+
+  Future<List<FoodResponseModel>> getBestMatchedRecipes() async{
+    String url = 'http://10.0.2.2:5000/get_best_matched_recipes';
+
+    print('in future getBestMatchedRecipes');
+
+    final response = await http.post(Uri.parse(url));
+
+    print('status code: ${response.statusCode}');
+
+    if(response.statusCode == 200) {
+      print('status code: ${response.statusCode}');
+
+      Iterable l = json.decode(response.body);
+
+      print(response.body);
+
+      print('iterable done...');
+
+      print('LENGTH: ${l.length}');
+
+      List<FoodResponseModel> recipes = List<FoodResponseModel>.from(l.map((e) => FoodResponseModel.fromJson(e)));
+
+      print('recipe list done');
+
+      return recipes;
+    } else {
+      throw Exception("failed to load data");
+    }
+
+  }
+
+
+  // Future<FoodResponseListModel> retrieveRecipes(List <File> images) async{
+  //   String url = 'http://10.0.2.2:5000/recognise_ingredients';
+  //
+  //   print('in future recognise_ingredients');
+  //
+  //   var request = http.MultipartRequest('POST', Uri.parse(url));
+  //
+  //   print('1------------------------------------');
+  //
+  //   if (images.isNotEmpty) {
+  //
+  //     for (var i = 0; i < images.length; i++) {
+  //       request.files.add(http.MultipartFile('files[]',
+  //           File(images[i].path).readAsBytes().asStream(), File(images[i].path).lengthSync(),
+  //           filename: images[i].path));
+  //     }
+  //
+  //     print('2------------------------------------');
+  //
+  //     var response = await request.send();
+  //
+  //     print('3------------------------------------');
+  //
+  //     var jsonResponse = await response.stream.bytesToString(utf8);
+  //
+  //     if(response.statusCode == 200) {
+  //       print('status code: ${response.statusCode}');
+  //
+  //       print(jsonResponse);
+  //
+  //       FoodResponseListModel foodResponseListModel = FoodResponseListModel.fromJson(json.decode(jsonResponse));
+  //
+  //       print('4------------------------------------');
+  //
+  //       return foodResponseListModel;
+  //
+  //     } else {
+  //       throw Exception("failed to load data");
+  //     }
+  //
+  //     //print('3------------------------------------');
+  //
+  //     // var responseString = await response.stream.bytesToString();
+  //
+  //     //print('4------------------------------------');
+  //
+  //
+  //     //var responseJson = await response.stream.transform(utf8.decoder).transform(json.decoder).first;
+  //
+  //     //print('4------------------------------------');
+  //
+  //     //FoodResponseModel foodResponseModel = responseJson as FoodResponseModel;
+  //
+  //     //print("ingredients - ${foodResponseModel.ingredients}");
+  //
+  //     //print('5------------------------------------');
+  //
+  //     if(response.statusCode==200) {
+  //       print("recipes extracted--------------------");
+  //       //print(responseString);
+  //
+  //       //return "done";
+  //
+  //     } else {
+  //       print('statusCode ${response.statusCode}');
+  //       //return "wrong";
+  //     }
+  //
+  //     // final responseData = await response.stream.toBytes();
+  //     // final responseString = String.fromCharCodes(responseData);
+  //     //
+  //     // print('RESPONSE: $responseString');
+  //
+  //
+  //
+  //
+  //   }
+  //
+  //   FoodResponseModel model = FoodResponseModel("nope", "nope", "nope", "nope", "nope", "nope", "nope", "nope", "nope", "nope", "nope");
+  //
+  //   List<FoodResponseModel> response = [];
+  //
+  //   response.add(model);
+  //
+  //   FoodResponseListModel foodResponseListModel = FoodResponseListModel(response);
+  //
+  //   //FoodResponseListModel model = FoodResponseListModel();
+  //
+  //   return foodResponseListModel;
+  //
+  //
+  //
+  // }
 
 
 }

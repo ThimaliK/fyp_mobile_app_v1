@@ -8,6 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'api/api_service.dart';
+
 
 
 class CameraInput extends StatefulWidget {
@@ -24,6 +26,8 @@ class _CameraInputState extends State<CameraInput> {
   List <File> _images = [];
 
   String data = "test";
+
+  String foodRecognitionStatus = "";
 
   //
   final imagePicker = ImagePicker();
@@ -82,46 +86,46 @@ class _CameraInputState extends State<CameraInput> {
 
 
     //final List<File> _image = [];
-    Future uploadImages(String url) async {
-
-      var request = http.MultipartRequest('POST', Uri.parse(url));
-
-
-      if (_images.length > 0) {
-        for (var i = 0; i < _images.length; i++) {
-          request.files.add(http.MultipartFile('files[]',
-              File(_images[i].path).readAsBytes().asStream(), File(_images[i].path).lengthSync(),
-              filename: _images[i].path));
-        }
-
-        // send
-        var response = await request.send();
-
-        final responseData = await response.stream.toBytes();
-        final responseString = String.fromCharCodes(responseData);
-
-        // var obj = json.decode(responseString);
-        //
-        // Recipe recipe = Recipe.fromJson(obj[0]);
-        //
-        // debugPrint(recipe.country);
-
-        // RecipeCollection recipeList = RecipeCollection.fromJson(obj);
-        //
-        // debugPrint(recipeList.recipeList.first.country);
-
-
-
-
-        // listen for response
-        // response.stream.transform(utf8.decoder).listen((value) {
-        //   debugPrint(value);
-        //
-        // });
-      }
-
-
-    }
+    // Future uploadImages(String url) async {
+    //
+    //   var request = http.MultipartRequest('POST', Uri.parse(url));
+    //
+    //
+    //   if (_images.length > 0) {
+    //     for (var i = 0; i < _images.length; i++) {
+    //       request.files.add(http.MultipartFile('files[]',
+    //           File(_images[i].path).readAsBytes().asStream(), File(_images[i].path).lengthSync(),
+    //           filename: _images[i].path));
+    //     }
+    //
+    //     // send
+    //     var response = await request.send();
+    //
+    //     final responseData = await response.stream.toBytes();
+    //     final responseString = String.fromCharCodes(responseData);
+    //
+    //     // var obj = json.decode(responseString);
+    //     //
+    //     // Recipe recipe = Recipe.fromJson(obj[0]);
+    //     //
+    //     // debugPrint(recipe.country);
+    //
+    //     // RecipeCollection recipeList = RecipeCollection.fromJson(obj);
+    //     //
+    //     // debugPrint(recipeList.recipeList.first.country);
+    //
+    //
+    //
+    //
+    //     // listen for response
+    //     // response.stream.transform(utf8.decoder).listen((value) {
+    //     //   debugPrint(value);
+    //     //
+    //     // });
+    //   }
+    //
+    //
+    // }
 
 
 
@@ -173,8 +177,52 @@ class _CameraInputState extends State<CameraInput> {
               ElevatedButton(
                   onPressed: () {
 
+                    List<File> images = _images;
+
+                    setState(() {
+
+                    });
+
+                    APIService apiService = APIService();
+
+                    print('api service created');
+
+                    apiService.foodRecognition(images).then((value) => {
+                      if(value.isNotEmpty && value=="top_5_recipes retrieved") {
+                        //if(value == "done") {
+
+                        print(value),
+
+                        foodRecognitionStatus = value,
+
+                        setState(() {
+
+                        })
+
+
+
+                        // Navigator.pushNamed(context, '/recipe_list',
+                        //     arguments: {'photos': images})
+                        // // } else {
+                        // //   print("wrong --- $value")
+                        // // }
+                      }
+                    });
+
+                    print('foodRecognitionStatus - $foodRecognitionStatus');
+
+
+                    apiService.getBestMatchedRecipes().then((value) => {
+
+                      print('INGREDIENTS - ${value.first.ingredients}')
+
+                    });
+
+
+
+
                     //getRequest();
-                    uploadImages('https://b464-2a00-23c4-f79c-c001-1df0-6241-9c78-7cc9.ngrok-free.app/recognise_ingredients');
+                    //uploadImages('https://b464-2a00-23c4-f79c-c001-1df0-6241-9c78-7cc9.ngrok-free.app/recognise_ingredients');
                     //postData();
                     // Navigator.pushNamed(context, '/recipe_list',
                     //     arguments: {'photos': _images});
