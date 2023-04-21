@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fyp_mobile_app_v1/models/food_model.dart';
 import 'package:fyp_mobile_app_v1/recipe.dart';
 import 'package:fyp_mobile_app_v1/recipe_collection.dart';
 import 'dart:io';
@@ -29,10 +30,14 @@ class _CameraInputState extends State<CameraInput> {
 
   String foodRecognitionStatus = "";
 
+  late List <FoodResponseModel> recipes;
+
   //
   final imagePicker = ImagePicker();
 
   //
+
+
   Future getImage() async {
     final image = await imagePicker.pickImage(source: ImageSource.camera);
     setState(() {
@@ -177,7 +182,7 @@ class _CameraInputState extends State<CameraInput> {
               ElevatedButton(
                   onPressed: () {
 
-                    List<File> images = _images;
+                    //List<File> images = _images;
 
                     setState(() {
 
@@ -187,36 +192,59 @@ class _CameraInputState extends State<CameraInput> {
 
                     print('api service created');
 
-                    apiService.foodRecognition(images).then((value) => {
+                    apiService.foodRecognition(_images).then((value) => {
                       if(value.isNotEmpty && value=="top_5_recipes retrieved") {
                         //if(value == "done") {
 
-                        print(value),
-
-                        foodRecognitionStatus = value,
-
-                        setState(() {
-
-                        })
-
-
-
+                        // print(value),
+                        //
+                        // //foodRecognitionStatus = value,
+                        //
+                        //
+                        //
+                        // setState(() {
+                        //
+                        // })
                         // Navigator.pushNamed(context, '/recipe_list',
                         //     arguments: {'photos': images})
                         // // } else {
                         // //   print("wrong --- $value")
                         // // }
+
+                        Navigator.pushNamed(context, '/recipe_list',
+                        arguments: {'photos': _images})
+
                       }
                     });
 
                     print('foodRecognitionStatus - $foodRecognitionStatus');
 
 
-                    apiService.getBestMatchedRecipes().then((value) => {
+                    // apiService.getBestMatchedRecipes().then((value) => {
+                    //
+                    //   print('INGREDIENTS - ${value.first.ingredients}'),
+                    //
+                    //
+                    //
+                    //   setState(() {
+                    //
+                    //   }),
+                    //
+                    //   setState(() {
+                    //
+                    //   }),
+                    //
+                    // // Navigator.pushNamed(context, '/recipe_list',
+                    // // arguments: {'photos': _images, 'recipe_data': _recipes})
+                    //
+                    //
+                    //
+                    // });
 
-                      print('INGREDIENTS - ${value.first.ingredients}')
+                    //var x = apiService.getBestMatchedRecipes();
 
-                    });
+
+
 
 
 
