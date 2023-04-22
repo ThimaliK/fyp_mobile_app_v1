@@ -1,5 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:fyp_mobile_app_v1/individual_recipe.dart';
 import 'package:fyp_mobile_app_v1/landing_page.dart';
 import 'dart:io';
 import 'package:fyp_mobile_app_v1/loading.dart';
@@ -31,6 +32,7 @@ void main() {
         '/home': (context) => const Home(),
         '/camera_input': (context) => const CameraInput(),
         '/recipe_list': (context) => const RecipeList(),
+        '/individual_recipe': (context) => const IndividualRecipe(),
       },
 
       supportedLocales: [

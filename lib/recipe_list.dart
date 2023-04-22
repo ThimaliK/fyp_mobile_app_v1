@@ -36,6 +36,66 @@ class _RecipeListState extends State<RecipeList> {
     // print("in recipes list view last ${recipes.first.ingredients}");
   }
 
+  Widget getTextWidgets(List<String> data)
+  {
+    List<Widget> list = <Widget>[];
+
+    for(var i = 0; i < data.length; i++){
+      list.add(Flexible(child:
+      Text(data[i])
+      )
+      );
+    }
+
+    return new SizedBox(height: 60,
+    child: Column(children: list),);
+  }
+
+
+  Widget getRecipeWidgets(List<FoodResponseModel> recipes)
+  {
+    List<Widget> list = <Widget>[];
+    for(var i = 0; i < recipes.length; i++){
+
+      final ingredientList = recipes[i].ingredients.split(',');
+      final methodSteps = recipes[i].method.split("--");
+      final nutritionInfoList = recipes[i].nutritionInfo.split(",");
+
+      list.add(Flexible(
+        child: GestureDetector(
+          child: Card(
+            child: SizedBox(
+              height: 100,
+              child: Column(
+                children: <Widget>[
+                  Flexible(
+                    child: ListTile(
+                      title: Text(recipes[i].name),
+                    ),
+                  ),
+                  // Flexible(child: Text("Ingredients"),),
+                  // getTextWidgets(ingredientList),
+
+                ],
+              ),
+            ),
+            color: Colors.grey,
+            margin: EdgeInsets.all(5),
+            //ONCLICK
+          ),
+          onTap: () =>
+          Navigator.pushNamed(context, '/individual_recipe',
+              arguments: {'data': recipes[i]})
+          ,
+        )
+      ));
+    }
+    return new SizedBox(
+      height: 750,
+      child: Column(children: list),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -79,12 +139,18 @@ class _RecipeListState extends State<RecipeList> {
               return CircularProgressIndicator();
             }
             else if(snapshot.hasData) {
-              return Center(
+              return SizedBox(
+                height: 1000,
                 child: Column(
+
                   children: [
-                    Text(snapshot.data!.first.ingredients),
-                    SizedBox(height: 10.0,),
-                    Text(snapshot.data!.first.name)
+                    // Text(snapshot.data!.first.ingredients),
+                    // SizedBox(height: 10.0,),
+                    // Text(snapshot.data!.first.name)
+
+                    getRecipeWidgets(snapshot.data!)
+
+
 
                   ],
                 ),
