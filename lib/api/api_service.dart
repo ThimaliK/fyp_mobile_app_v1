@@ -30,7 +30,7 @@ class APIService {
 
     print('status code: ${response.statusCode}');
 
-    if(response.statusCode == 200) {
+    if(response.statusCode == 200 || response.statusCode == 401) {
       print('status code: ${response.statusCode}');
       return LoginResponseModel.fromJson(json.decode(response.body));
     } else {
@@ -56,16 +56,18 @@ class APIService {
         'country': signupRequestModel.country,
         'birth_date': signupRequestModel.birthDate,
         'food_preferences': signupRequestModel.foodPreferences,
+        'fit_bit_id': signupRequestModel.fitbitUserID
 
       }),
     );
 
     print('status code: ${response.statusCode}');
 
-    if(response.statusCode == 200) {
+    if(response.statusCode == 200 || response.statusCode == 409) {
       print('status code: ${response.statusCode}');
       return LoginResponseModel.fromJson(json.decode(response.body));
-    } else {
+    }
+    else {
       throw Exception("failed to load data");
     }
 

@@ -37,6 +37,8 @@ dependencies:
   country_picker: ^2.0.20
   flutter_localization: ^0.1.10
   syncfusion_flutter_datepicker: ^21.1.41
+  chips_choice_null_safety: ^2.0.2
+  email_validator: ^2.1.17
 #  camera: ^0.10.3+2
 #  path: ^1.8.3
 

@@ -20,24 +20,26 @@ class _HomeState extends State<Home> {
           
       Padding(
         padding: const EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          
-          children: <Widget>[
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             
-            const SizedBox(height: 10,),
-            const Text('Hello, Jane Doe'),
-            const SizedBox(height: 10,),
-            Card(
-              color: Colors.purple[100],
-              child: IconButton(onPressed: () {
-                Navigator.pushNamed(context, '/camera_input');
-              },
-                  icon: const Icon(Icons.camera_alt),
-                iconSize: 250,
-              ),
-            )
-          ],
+            children: <Widget>[
+              
+              const SizedBox(height: 10,),
+              const Text('Welcome to MyHealth'),
+              const SizedBox(height: 10,),
+              Card(
+                color: Colors.purple[100],
+                child: IconButton(onPressed: () {
+                  Navigator.pushNamed(context, '/camera_input');
+                },
+                    icon: const Icon(Icons.camera_alt),
+                  iconSize: 250,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
