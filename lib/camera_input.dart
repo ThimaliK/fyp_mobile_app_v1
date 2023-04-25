@@ -18,7 +18,7 @@ class _CameraInputState extends State<CameraInput> {
 
   File _image = File('assets/logo.png');
 
-  List <File> _images = [];
+  final List <File> _images = [];
 
   String data = "test";
 
