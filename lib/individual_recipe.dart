@@ -13,9 +13,21 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
 
   Map data = {};
 
+  Widget getTextWidgets(List<String> data)
+  {
+    List<Widget> list = <Widget>[];
 
-
-
+    for(var i = 0; i < data.length; i++){
+      list.add(Flexible(child:
+      Text(data[i])
+      )
+      );
+    }
+    return SizedBox(height: 200,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+          children: list),);
+  }
 
 
 
@@ -35,6 +47,10 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
 
     FoodResponseModel recipe = data['data'];
 
+    final ingredientList = recipe.ingredients.split(',');
+    final methodSteps = recipe.method.split("--");
+    final nutritionInfoList = recipe.nutritionInfo.split(",");
+
 
 
     return Scaffold(
@@ -43,26 +59,30 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
         backgroundColor: Colors.deepPurple[700],
         centerTitle: true,
       ),
-      body: Column(
+      body: 
+      Column(
         children: <Widget>[
-          Text(recipe.name),
-          Text(recipe.ingredients),
-          Text(recipe.method),
+          // Text(recipe.name),
+          // Text(recipe.ingredients),
+          // Text(recipe.method),
+
+          Flexible(
+            child: ListTile(
+              title: Text(recipe.name),
+            ),
+          ),
+          getTextWidgets(ingredientList),
+          //SizedBox(height: 7,),
+          Padding(
+            padding: EdgeInsets.all(20),
+              child: getTextWidgets(methodSteps)),
+          //getTextWidgets(nutritionInfoList),
+          // SizedBox(height: 10,),
+          // getTextWidgets(nutritionInfoList)
         ],
       )
     );
   }
 
-  // Future <FoodResponseModel> getSomething() async {
-  //
-  //
-  //   FoodResponseModel recipe = await data['data'];
-  //
-  //   if (recipe==null) {
-  //     return FoodResponseModel("name", "name", "name", "name", "name", "name", 1, 1, "name", 1, "name");
-  //   }
-  //
-  //   print('in get something');
-  //   return recipe;
-  // }
+
 }

@@ -20,7 +20,7 @@ class _CameraInputState extends State<CameraInput> {
 
   final List <File> _images = [];
 
-  String data = "test";
+  //String data = "test";
 
   String foodRecognitionStatus = "";
 
@@ -52,6 +52,39 @@ class _CameraInputState extends State<CameraInput> {
 
     }
 
+    Widget photosPreview() {
+      return GridView.builder(
+        itemCount: _images.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 4.0,
+            mainAxisSpacing: 4.0
+        ),
+        itemBuilder: (BuildContext context, int index){
+          //
+          return
+            SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                Image.file(_images[index]),
+                IconButton(onPressed: () {
+                  print("icon button click");
+                  _images.remove(_images[index]);
+                  setState(() {
+
+                  });
+                },
+                  icon: const Icon(Icons.delete),
+                  iconSize: 20,
+                  alignment: Alignment.bottomRight,
+                ),
+              ],),
+            );
+        },
+      );
+    }
+
 
     @override
     Widget build(BuildContext context) {
@@ -65,62 +98,67 @@ class _CameraInputState extends State<CameraInput> {
             children: <Widget> [Expanded(
               child: Container(
                   padding: EdgeInsets.all(12.0),
-                  child: GridView.builder(
-                    itemCount: _images.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 4.0,
-                        mainAxisSpacing: 4.0
-                    ),
-                    itemBuilder: (BuildContext context, int index){
-                      return Image.file(_images[index]);
-                    },
-                  )),
+                  child: photosPreview()
+              ),
             ),
               SizedBox(height: 10.0,),
-              Text(data),
-              SizedBox(height: 10.0,),
-              ElevatedButton(
-                  onPressed: () {
-                    getImage();
-                  },
-                  child: Text('Camera')
+
+              Container(
+                padding: EdgeInsets.fromLTRB(0, 0, 20, 20),
+
+                alignment: Alignment.bottomRight,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {
+                          getImagesFromGallery();
+                        },
+                        style: ElevatedButton.styleFrom(primary: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
+                        child: const Text('Gallery')
+                    ),
+                    SizedBox(height: 10.0,),
+                    ElevatedButton(
+                      onPressed: () {
+                        getImage();
+                      },
+                      style: ElevatedButton.styleFrom(primary: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
+                      child: const Text('Camera'),
+                    ),
+                    SizedBox(height: 10.0,),
+                    ElevatedButton(
+                        onPressed: () {
+
+                          //List<File> images = _images;
+
+                          setState(() {
+
+                          });
+
+                          APIService apiService = APIService();
+
+                          print('api service created');
+
+                          apiService.foodRecognition(_images).then((value) => {
+                            if(value.isNotEmpty && value=="top_5_recipes retrieved") {
+
+
+                              Navigator.pushNamed(context, '/recipe_list',
+                                  arguments: {'photos': _images})
+
+                            }
+                          });
+
+                          print('foodRecognitionStatus - $foodRecognitionStatus');
+                        },
+                        style: ElevatedButton.styleFrom(primary: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
+                        child: Text('Get Recipes')
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 10.0,),
-              ElevatedButton(
-                  onPressed: () {
-                    getImagesFromGallery();
-                  },
-                  child: Text('Gallery')
-              ),
-              SizedBox(height: 10.0,),
-              ElevatedButton(
-                  onPressed: () {
-
-                    //List<File> images = _images;
-
-                    setState(() {
-
-                    });
-
-                    APIService apiService = APIService();
-
-                    print('api service created');
-
-                    apiService.foodRecognition(_images).then((value) => {
-                      if(value.isNotEmpty && value=="top_5_recipes retrieved") {
 
 
-                        Navigator.pushNamed(context, '/recipe_list',
-                        arguments: {'photos': _images})
-
-                      }
-                    });
-
-                    print('foodRecognitionStatus - $foodRecognitionStatus');
-                  },
-                  child: Text('Get Recipes')
-              ),
 
               
             ]

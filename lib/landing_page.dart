@@ -27,6 +27,7 @@ class _LandingPageState extends State<LandingPage> {
 
 
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
                   child: const Text('Log In'),
                   onPressed: (){
                     Navigator.pushNamed(context, '/sign_in');
@@ -34,6 +35,7 @@ class _LandingPageState extends State<LandingPage> {
                 ),
 
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
                   child: const Text('Create Account'),
                   onPressed: (){
                     Navigator.pushNamed(context, '/sign_up');

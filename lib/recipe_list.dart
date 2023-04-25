@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_mobile_app_v1/api/api_service.dart';
 import 'dart:io';
-
 import 'package:fyp_mobile_app_v1/models/food_model.dart';
 
 class RecipeList extends StatefulWidget {
@@ -23,17 +22,7 @@ class _RecipeListState extends State<RecipeList> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    //APIService apiService = APIService();
-    //recipes = apiService.getBestMatchedRecipes() as List<FoodResponseModel>;
 
-    // apiService.getBestMatchedRecipes().then((value) => {
-    //   print('INGREDIENTS IN RECIPE LIST - ${value.first.ingredients}'),
-    //
-    //
-    //   recipes = value
-    // });
-    //
-    // print("in recipes list view last ${recipes.first.ingredients}");
   }
 
   Widget getTextWidgets(List<String> data)
@@ -47,7 +36,7 @@ class _RecipeListState extends State<RecipeList> {
       );
     }
 
-    return new SizedBox(height: 60,
+    return SizedBox(height: 60,
     child: Column(children: list),);
   }
 
@@ -63,25 +52,29 @@ class _RecipeListState extends State<RecipeList> {
 
       list.add(Flexible(
         child: GestureDetector(
-          child: Card(
-            child: SizedBox(
-              height: 100,
-              child: Column(
-                children: <Widget>[
-                  Flexible(
-                    child: ListTile(
-                      title: Text(recipes[i].name),
+          child: 
+          Padding(
+            padding: EdgeInsets.all(7),
+            child: Card(
+              color: Colors.white70,
+              margin: EdgeInsets.all(5),
+              child: SizedBox(
+                height: 80,
+                child: Column(
+                  children: <Widget>[
+                    Flexible(
+                      child: ListTile(
+                        title: Text(recipes[i].name),
+                      ),
                     ),
-                  ),
-                  // Flexible(child: Text("Ingredients"),),
-                  // getTextWidgets(ingredientList),
+                    // Flexible(child: Text("Ingredients"),),
+                    // getTextWidgets(ingredientList),
 
-                ],
+                  ],
+                ),
               ),
+              //ONCLICK
             ),
-            color: Colors.grey,
-            margin: EdgeInsets.all(5),
-            //ONCLICK
           ),
           onTap: () =>
           Navigator.pushNamed(context, '/individual_recipe',
@@ -108,58 +101,43 @@ class _RecipeListState extends State<RecipeList> {
 
     List <File> _images = data['photos'];
 
-    //List<FoodResponseModel> recipes = data['recipes'];
-
-    //print('Recipes from recipe list view$recipes');
-
-
-    
 
     return Scaffold(
-      appBar: AppBar(title: Text('recipe list')),
+      appBar: AppBar(title: Text('recipe list'), backgroundColor: Colors.deepPurple,),
+
       body: SafeArea(
         child:
-        // Container(
-        //     padding: EdgeInsets.all(12.0),
-        //     child: GridView.builder(
-        //       itemCount: _images.length,
-        //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        //           crossAxisCount: 2,
-        //           crossAxisSpacing: 4.0,
-        //           mainAxisSpacing: 4.0
-        //       ),
-        //       itemBuilder: (BuildContext context, int index){
-        //         return Image.file(_images[index]);
-        //       },
-        //     )),
-        FutureBuilder<List<FoodResponseModel>> (
-          future: apiService.getBestMatchedRecipes(),
-          builder: (context, snapshot) {
-            if(snapshot.data==null) {
+
+        SingleChildScrollView(
+          child: FutureBuilder<List<FoodResponseModel>> (
+            future: apiService.getBestMatchedRecipes(),
+            builder: (context, snapshot) {
+              if(snapshot.data==null) {
+                return CircularProgressIndicator();
+              }
+              else if(snapshot.hasData) {
+                return SizedBox(
+                  height: 1000,
+                  child: Column(
+
+                    children: [
+                      // Text(snapshot.data!.first.ingredients),
+                      // SizedBox(height: 10.0,),
+                      // Text(snapshot.data!.first.name)
+
+                      getRecipeWidgets(snapshot.data!)
+
+
+
+                    ],
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
               return CircularProgressIndicator();
-            }
-            else if(snapshot.hasData) {
-              return SizedBox(
-                height: 1000,
-                child: Column(
-
-                  children: [
-                    // Text(snapshot.data!.first.ingredients),
-                    // SizedBox(height: 10.0,),
-                    // Text(snapshot.data!.first.name)
-
-                    getRecipeWidgets(snapshot.data!)
-
-
-
-                  ],
-                ),
-              );
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
-            return CircularProgressIndicator();
-          },
+            },
+          ),
         )
       ),
     );
