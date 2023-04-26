@@ -1,18 +1,18 @@
 import 'dart:io';
-
 import 'package:fyp_mobile_app_v1/models/food_model.dart';
 import 'package:fyp_mobile_app_v1/models/login_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import '../models/signup_model.dart';
 
 class APIService {
 
-
+  String baseUrl = "http://fyp-trial-2-env.eba-cwcfw5nz.eu-west-2.elasticbeanstalk.com";
 
   Future<LoginResponseModel> login(LoginRequestModel loginRequestModel) async{
-    String url = 'http://10.0.2.2:5000/sign_in';
+    //String url = 'http://10.0.2.2:5000/sign_in';
+
+    String url = "$baseUrl/sign_in";
 
     print('in future login');
 
@@ -40,7 +40,10 @@ class APIService {
   }
 
   Future<LoginResponseModel> register(SignupRequestModel signupRequestModel) async{
-    String url = 'http://10.0.2.2:5000/sign_up';
+
+    //String url = 'http://10.0.2.2:5000/sign_up';
+
+    String url = "$baseUrl/sign_up";
 
     print('in future sign up');
 
@@ -75,7 +78,9 @@ class APIService {
 
   Future<String> foodRecognition(List<File> images) async{
 
-      String url = 'http://10.0.2.2:5000/recognise_ingredients';
+      //String url = 'http://10.0.2.2:5000/recognise_ingredients';
+
+      String url = "$baseUrl/recognise_ingredients";
 
       print('in future recognise_ingredients');
 
@@ -119,7 +124,10 @@ class APIService {
   }
 
   Future<List<FoodResponseModel>> getBestMatchedRecipes() async{
-    String url = 'http://10.0.2.2:5000/get_best_matched_recipes';
+
+    //String url = 'http://10.0.2.2:5000/get_best_matched_recipes';
+
+    String url = "$baseUrl/get_best_matched_recipes";
 
     print('in future getBestMatchedRecipes');
 
@@ -150,101 +158,6 @@ class APIService {
     }
 
   }
-
-
-  // Future<FoodResponseListModel> retrieveRecipes(List <File> images) async{
-  //   String url = 'http://10.0.2.2:5000/recognise_ingredients';
-  //
-  //   print('in future recognise_ingredients');
-  //
-  //   var request = http.MultipartRequest('POST', Uri.parse(url));
-  //
-  //   print('1------------------------------------');
-  //
-  //   if (images.isNotEmpty) {
-  //
-  //     for (var i = 0; i < images.length; i++) {
-  //       request.files.add(http.MultipartFile('files[]',
-  //           File(images[i].path).readAsBytes().asStream(), File(images[i].path).lengthSync(),
-  //           filename: images[i].path));
-  //     }
-  //
-  //     print('2------------------------------------');
-  //
-  //     var response = await request.send();
-  //
-  //     print('3------------------------------------');
-  //
-  //     var jsonResponse = await response.stream.bytesToString(utf8);
-  //
-  //     if(response.statusCode == 200) {
-  //       print('status code: ${response.statusCode}');
-  //
-  //       print(jsonResponse);
-  //
-  //       FoodResponseListModel foodResponseListModel = FoodResponseListModel.fromJson(json.decode(jsonResponse));
-  //
-  //       print('4------------------------------------');
-  //
-  //       return foodResponseListModel;
-  //
-  //     } else {
-  //       throw Exception("failed to load data");
-  //     }
-  //
-  //     //print('3------------------------------------');
-  //
-  //     // var responseString = await response.stream.bytesToString();
-  //
-  //     //print('4------------------------------------');
-  //
-  //
-  //     //var responseJson = await response.stream.transform(utf8.decoder).transform(json.decoder).first;
-  //
-  //     //print('4------------------------------------');
-  //
-  //     //FoodResponseModel foodResponseModel = responseJson as FoodResponseModel;
-  //
-  //     //print("ingredients - ${foodResponseModel.ingredients}");
-  //
-  //     //print('5------------------------------------');
-  //
-  //     if(response.statusCode==200) {
-  //       print("recipes extracted--------------------");
-  //       //print(responseString);
-  //
-  //       //return "done";
-  //
-  //     } else {
-  //       print('statusCode ${response.statusCode}');
-  //       //return "wrong";
-  //     }
-  //
-  //     // final responseData = await response.stream.toBytes();
-  //     // final responseString = String.fromCharCodes(responseData);
-  //     //
-  //     // print('RESPONSE: $responseString');
-  //
-  //
-  //
-  //
-  //   }
-  //
-  //   FoodResponseModel model = FoodResponseModel("nope", "nope", "nope", "nope", "nope", "nope", "nope", "nope", "nope", "nope", "nope");
-  //
-  //   List<FoodResponseModel> response = [];
-  //
-  //   response.add(model);
-  //
-  //   FoodResponseListModel foodResponseListModel = FoodResponseListModel(response);
-  //
-  //   //FoodResponseListModel model = FoodResponseListModel();
-  //
-  //   return foodResponseListModel;
-  //
-  //
-  //
-  // }
 
 
 }

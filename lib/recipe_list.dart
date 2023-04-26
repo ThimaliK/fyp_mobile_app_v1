@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_mobile_app_v1/api/api_service.dart';
-import 'dart:io';
 import 'package:fyp_mobile_app_v1/models/food_model.dart';
 
 class RecipeList extends StatefulWidget {
@@ -45,21 +44,17 @@ class _RecipeListState extends State<RecipeList> {
   {
     List<Widget> list = <Widget>[];
     for(var i = 0; i < recipes.length; i++){
-
-      final ingredientList = recipes[i].ingredients.split(',');
-      final methodSteps = recipes[i].method.split("--");
-      final nutritionInfoList = recipes[i].nutritionInfo.split(",");
-
+//
       list.add(Flexible(
         child: GestureDetector(
           child: 
           Padding(
-            padding: EdgeInsets.all(7),
+            padding: const EdgeInsets.all(7),
             child: Card(
               color: Colors.white70,
-              margin: EdgeInsets.all(5),
+              margin: const EdgeInsets.all(5),
               child: SizedBox(
-                height: 80,
+                height: 50,
                 child: Column(
                   children: <Widget>[
                     Flexible(
@@ -78,12 +73,11 @@ class _RecipeListState extends State<RecipeList> {
           ),
           onTap: () =>
           Navigator.pushNamed(context, '/individual_recipe',
-              arguments: {'data': recipes[i]})
-          ,
+              arguments: {'data': recipes[i]}),
         )
       ));
     }
-    return new SizedBox(
+    return SizedBox(
       height: 750,
       child: Column(children: list),
     );
@@ -99,44 +93,55 @@ class _RecipeListState extends State<RecipeList> {
       data = ModalRoute.of(context)?.settings.arguments as Map;
     }
 
-    List <File> _images = data['photos'];
 
 
     return Scaffold(
-      appBar: AppBar(title: Text('recipe list'), backgroundColor: Colors.deepPurple,),
+      appBar: AppBar(title: const Text('Recipe Suggestions'), backgroundColor: Colors.deepPurple,),
 
       body: SafeArea(
         child:
 
         SingleChildScrollView(
-          child: FutureBuilder<List<FoodResponseModel>> (
-            future: apiService.getBestMatchedRecipes(),
-            builder: (context, snapshot) {
-              if(snapshot.data==null) {
-                return CircularProgressIndicator();
-              }
-              else if(snapshot.hasData) {
-                return SizedBox(
-                  height: 1000,
-                  child: Column(
+          child:
+          Column(
+            children: [
+            FutureBuilder<List<FoodResponseModel>> (
+              future: apiService.getBestMatchedRecipes(),
+              builder: (context, snapshot) {
+                if(snapshot.data==null) {
+                  return const CircularProgressIndicator();
+                }
+                else if(snapshot.hasData) {
+                  return SizedBox(
+                    height: 500,
+                    child: Column(
 
-                    children: [
-                      // Text(snapshot.data!.first.ingredients),
-                      // SizedBox(height: 10.0,),
-                      // Text(snapshot.data!.first.name)
+                      children: [
+                        // Text(snapshot.data!.first.ingredients),
+                        // SizedBox(height: 10.0,),
+                        // Text(snapshot.data!.first.name)
 
-                      getRecipeWidgets(snapshot.data!)
+                        getRecipeWidgets(snapshot.data!)
 
+                      ],
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+                return const CircularProgressIndicator();
+              },
+            ),
 
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
+                  child: const Text('Get Customised Recipes'),
+                  onPressed: (){
 
-                    ],
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-              return CircularProgressIndicator();
-            },
+                  },
+                ),
+
+        ]
           ),
         )
       ),
