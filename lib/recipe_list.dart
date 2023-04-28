@@ -155,7 +155,7 @@ class _RecipeListState extends State<RecipeList> {
 
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
-                    child: const Text('Get Customised Recipes'),
+                    child: const Text('Find Customised Recipes'),
                     onPressed: (){
 
                     },

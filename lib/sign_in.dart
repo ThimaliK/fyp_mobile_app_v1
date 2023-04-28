@@ -127,15 +127,16 @@ class _SignInState extends State<SignIn> {
                       print('api service created');
 
                       apiService.login(requestModel).then((value) => {
-                        if(value.response.isNotEmpty) {
-                          if(value.response == "logged in") {
-                            Navigator.pushNamed(context, '/home')
-                          } else {
-                            print("wrong${value.response}"),
-                            setState(() {
-                              message = value.response;
-                            })
-                          }
+                        if(value.username.isNotEmpty) {
+                          // if(value.response == "logged in") {
+                            Navigator.pushNamed(context, '/home',
+                                arguments: {'username': value.username, 'bmi': value.bmi})
+                          // } else {
+                          //   print("wrong${value.response}"),
+                          //   setState(() {
+                          //     message = value.response;
+                          //   })
+                          // }
                         }
                       });
                     },

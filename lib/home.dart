@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'api/api_service.dart';
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -8,8 +10,45 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  String currentUsername = "";
+  String currentBmi = "";
+
+  Map data = {};
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    // APIService apiService = APIService();
+    // apiService.getUserInfo().then((value) => {
+    //   if(value.username.isNotEmpty) {
+    //
+    //     setState(() {
+    //       currentUsername = value.username;
+    //       currentBmi = value.bmi;
+    //     })
+    //
+    //   }
+    // });
+
+
+
+
+  }
+
   @override
   Widget build(BuildContext context) {
+
+    if (data.isNotEmpty) {
+      data = data;
+    } else {
+
+      print('getting route data---------------------');
+      data = ModalRoute.of(context)?.settings.arguments as Map;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('MyHealth'),
@@ -25,7 +64,7 @@ class _HomeState extends State<Home> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               const SizedBox(height: 10,),
-              const Text('Welcome to MyHealth!', style: TextStyle(fontSize: 18),
+              Text('Hi ${data['username']}, Welcome Back!', style: TextStyle(fontSize: 18),
                 textAlign: TextAlign.center,),
               const SizedBox(height: 10,),
               GestureDetector(
@@ -67,9 +106,9 @@ class _HomeState extends State<Home> {
                       iconSize: 100,
                       alignment: Alignment.centerLeft,
                     ),
-                    const Flexible(
+                    Flexible(
                         child: ListTile(
-                          title: Text("Step Count: "),
+                          title: Text("Your Bmi: ${data['bmi']}"),
                         )
                     ),
                   ],

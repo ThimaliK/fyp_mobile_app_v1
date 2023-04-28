@@ -1,8 +1,9 @@
 class LoginResponseModel {
 
-  final String response;
+  final String username;
+  final String bmi;
 
-  LoginResponseModel(this.response);
+  LoginResponseModel(this.username, this.bmi);
 
   // factory LoginResponseModel.fromJson(Map<String, dynamic> json) {
   //
@@ -10,7 +11,7 @@ class LoginResponseModel {
   // }
 
   LoginResponseModel.fromJson(Map<String, dynamic> json)
-      : response = json['response'];
+      : username = json['username'], bmi = json['bmi'].toString();
 
 }
 

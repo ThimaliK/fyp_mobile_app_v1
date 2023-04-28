@@ -17,10 +17,12 @@ class SignupRequestModel {
   String country;
   String birthDate;
   String foodPreferences;
+  String weight;
+  String height;
   String fitbitUserID;
 
   SignupRequestModel(this.username, this.email, this.password, this.country,
-      this.birthDate, this.foodPreferences, this.fitbitUserID);
+      this.birthDate, this.foodPreferences, this.weight, this.height, this.fitbitUserID);
 
   Map <String, dynamic> toJson() {
 
@@ -31,6 +33,8 @@ class SignupRequestModel {
       'country': country.trim(),
       'birthDate': birthDate.trim(),
       'foodPreferences': foodPreferences.trim(),
+      'weight': weight.trim(),
+      'height': height.trim(),
       'fit_bit_id': fitbitUserID.trim()
     };
     return map;

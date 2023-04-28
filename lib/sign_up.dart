@@ -19,9 +19,9 @@ class _SignUpState extends State<SignUp> {
 
   List<String> tags = [];
   List<String> options = ['Healthy', 'Low calorie', 'Freezable', 'French cuisine', 'Fresh',
-  'Vegetarian', 'Vegan', 'Gluten-free', 'Flavourful', 'Rich in protein', 'Indian cuisine', 'Spicy', 'Low-fat',
-  'Mediterranean', 'Asian cuisine', 'Fruity', 'Dairy', 'Warm', 'Sweet', 'Italian cuisine',
-  'Egg-free', 'Dairy-free', ];
+  'Vegetarian', 'Vegan', 'Gluten-free', 'Flavourful', 'Rich in protein', 'Indian cuisine',
+  'Spicy', 'Low-fat', 'Mediterranean', 'Asian cuisine', 'Fruity', 'Dairy', 'Warm', 'Sweet',
+  'Italian cuisine', 'Egg-free', 'Dairy-free', ];
 
   String validationMessage = "";
 
@@ -32,6 +32,8 @@ class _SignUpState extends State<SignUp> {
   final passwordController = TextEditingController();
   final fitbitIdController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  final weightController = TextEditingController();
+  final heightController = TextEditingController();
 
   String selectedCountry = "";
 
@@ -43,6 +45,8 @@ class _SignUpState extends State<SignUp> {
     passwordController.dispose();
     fitbitIdController.dispose();
     confirmPasswordController.dispose();
+    weightController.dispose();
+    heightController.dispose();
     super.dispose();
   }
 
@@ -59,6 +63,8 @@ class _SignUpState extends State<SignUp> {
       selectedCountry,
       '12/12/2000',
       tags.toString(),
+      weightController.text,
+      heightController.text,
       fitbitIdController.text
     );
 
@@ -165,6 +171,42 @@ class _SignUpState extends State<SignUp> {
                         hintText: 'Enter Fitbit User ID to view health data',
                       ),
                       controller: fitbitIdController,
+                      cursorColor: Colors.deepPurple,
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: TextField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.deepPurple)),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+                        ),
+                        labelText: 'Weight in kg',
+                        labelStyle: TextStyle(color: Colors.deepPurple),
+                        hintText: 'Enter your weight in kg to calculate BMI',
+                      ),
+                      controller: weightController,
+                      cursorColor: Colors.deepPurple,
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: TextField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.deepPurple)),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+                        ),
+                        labelText: 'Height in cm',
+                        labelStyle: TextStyle(color: Colors.deepPurple),
+                        hintText: 'Enter your height in cm to calculate BMI',
+                      ),
+                      controller: heightController,
                       cursorColor: Colors.deepPurple,
                     ),
                   ),
@@ -280,6 +322,8 @@ class _SignUpState extends State<SignUp> {
                         requestModel.country = selectedCountry;
                         requestModel.birthDate = "12/12/2000";
                         requestModel.foodPreferences = tags.toString();
+                        requestModel.weight = weightController.text;
+                        requestModel.height = heightController.text;
                         requestModel.fitbitUserID = fitbitIdController.text;
 
                         setState(() {
