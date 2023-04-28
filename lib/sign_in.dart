@@ -130,7 +130,7 @@ class _SignInState extends State<SignIn> {
                         if(value.username.isNotEmpty) {
                           // if(value.response == "logged in") {
                             Navigator.pushNamed(context, '/home',
-                                arguments: {'username': value.username, 'bmi': value.bmi})
+                                arguments: {'username': value.username, 'bmi': value.bmi, 'email': value.email})
                           // } else {
                           //   print("wrong${value.response}"),
                           //   setState(() {

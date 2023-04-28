@@ -14,6 +14,8 @@ class CameraInput extends StatefulWidget {
 
 class _CameraInputState extends State<CameraInput> {
 
+  Map routeData = {};
+
   File _image = File('assets/logo.png');
 
   final List <File> _images = [];
@@ -101,6 +103,15 @@ class _CameraInputState extends State<CameraInput> {
 
   @override
   Widget build(BuildContext context) {
+
+    setState(() {
+      if (routeData.isNotEmpty) {
+        routeData = routeData;
+      } else {
+        routeData = ModalRoute.of(context)?.settings.arguments as Map;
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Take photos of Ingredients'),
@@ -184,7 +195,7 @@ class _CameraInputState extends State<CameraInput> {
                             if(value.isNotEmpty && value=="top_5_recipes_retrieved") {
 
                               Navigator.pushNamed(context, '/recipe_list',
-                                  arguments: {'photos': _images})
+                                  arguments: {'photos': _images, 'email': routeData['email'], 'username': routeData['username'], 'bmi': routeData['bmi']})
                             }
                           });
 

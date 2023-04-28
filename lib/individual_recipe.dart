@@ -37,13 +37,18 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
   Widget build(BuildContext context) {
 
 
-    if (data.isNotEmpty) {
-      data = data;
-    } else {
+    setState(() {
 
-      print('getting route data---------------------');
-      data = ModalRoute.of(context)?.settings.arguments as Map;
-    }
+      if (data.isNotEmpty) {
+        data = data;
+      } else {
+
+        print('getting route data---------------------');
+        data = ModalRoute.of(context)?.settings.arguments as Map;
+      }
+
+    });
+
 
     print(data);
 
@@ -155,7 +160,8 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
                   padding: const EdgeInsets.all(15),
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/home');
+                      Navigator.pushNamed(context, '/home',
+                          arguments: {'username': data['username'], 'bmi': data['bmi'], 'email': data['email']});
                     },
 
                     style: ElevatedButton.styleFrom(

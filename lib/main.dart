@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_mobile_app_v1/customised_recipe_list.dart';
 import 'package:fyp_mobile_app_v1/individual_recipe.dart';
 import 'package:fyp_mobile_app_v1/landing_page.dart';
 import 'dart:io';
@@ -19,8 +20,9 @@ void main() {
         '/camera_input': (context) => const CameraInput(),
         '/recipe_list': (context) => const RecipeList(),
         '/individual_recipe': (context) => const IndividualRecipe(),
+        '/customised_recipe_list': (context) => const CustomisedRecipeList(),
       },
-
+//
 
     ));
 

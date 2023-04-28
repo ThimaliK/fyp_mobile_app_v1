@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:fyp_mobile_app_v1/api/api_service.dart';
 import 'package:fyp_mobile_app_v1/models/food_model.dart';
 
-class RecipeList extends StatefulWidget {
-  const RecipeList({Key? key}) : super(key: key);
+class CustomisedRecipeList extends StatefulWidget {
+  const CustomisedRecipeList({Key? key}) : super(key: key);
 
   @override
-  State<RecipeList> createState() => _RecipeListState();
+  State<CustomisedRecipeList> createState() => _CustomisedRecipeListState();
 }
 
-class _RecipeListState extends State<RecipeList> {
+class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
 
   Map data = {};
 
@@ -21,8 +21,6 @@ class _RecipeListState extends State<RecipeList> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-
 
   }
 
@@ -92,7 +90,7 @@ class _RecipeListState extends State<RecipeList> {
             ),
             onTap: () =>
                 Navigator.pushNamed(context, '/individual_recipe',
-                    arguments: {'data': recipes[i], 'photos': data['photos'], 'email': data['email'], 'username': data['username'], 'bmi': data['bmi']}),
+                    arguments: {'data': recipes[i], 'photos': data['photos'], 'email': data['email'], 'bmi': data['bmi'], 'username': data['username']}),
           )
       ));
     }
@@ -112,14 +110,14 @@ class _RecipeListState extends State<RecipeList> {
       } else {
         data = ModalRoute.of(context)?.settings.arguments as Map;
       }
+
     });
-//
-    print("DATAAAAA:    "+data.toString());
+
 
 
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Recipe Suggestions'), backgroundColor: Colors.deepPurple,),
+      appBar: AppBar(title: const Text('Customised Recipe Suggestions'), backgroundColor: Colors.deepPurple,),
 
       body: SafeArea(
           child:
@@ -131,7 +129,7 @@ class _RecipeListState extends State<RecipeList> {
 
                   SingleChildScrollView(
                     child: FutureBuilder<List<FoodResponseModel>> (
-                      future: apiService.getBestMatchedRecipes(),
+                      future: apiService.getBestMatchedCustomisedRecipes(),
                       builder: (context, snapshot) {
                         if(snapshot.data==null) {
                           return const CircularProgressIndicator();
@@ -161,21 +159,12 @@ class _RecipeListState extends State<RecipeList> {
 
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
-                    child: const Text('Find Customised Recipes'),
+                    child: const Text('Back to recipes based on ingredients'),
                     onPressed: (){
 
-                      APIService apiService = APIService();  //
-
-                      apiService.customisedRecipes(data['photos'], data['email']).then((value) => {
-                        if(value.isNotEmpty && value=="5_cutomised_recipes_extracted") {
-
-                          Navigator.pushNamed(context, '/customised_recipe_list',
-                              arguments: {'photos': data['photos'], 'email': data['email'], 'username': data['username'], 'bmi': data['bmi']})
-                        }
-                      });
-
+                      Navigator.pushNamed(context, '/recipe_list', arguments: {'photos': data['photos'], 'email': data['email'], 'bmi': data['bmi'], 'username': data['username']});
                     },
-                  ),
+                  ),//
 
                 ]
             ),

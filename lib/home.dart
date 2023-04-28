@@ -82,7 +82,7 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         IconButton(onPressed: () {
-                          Navigator.pushNamed(context, '/camera_input');
+                          Navigator.pushNamed(context, '/camera_input', arguments: {'email': data['email'], 'username': data['username'], 'bmi': data['bmi']});
                         },
                           icon: const Icon(Icons.camera_alt_rounded, color: Colors.black,),
                           iconSize: 200,
@@ -92,7 +92,7 @@ class _HomeState extends State<Home> {
 
                   ),
                 ),
-                onTap: () => Navigator.pushNamed(context, '/camera_input'),
+                onTap: () => Navigator.pushNamed(context, '/camera_input', arguments: {'email': data['email'], 'username': data['username'], 'bmi': data['bmi']}),
               ),
               const SizedBox(height: 10,),
               Card(

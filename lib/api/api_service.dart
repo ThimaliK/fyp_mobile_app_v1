@@ -261,7 +261,7 @@ class APIService {
   }
 
 
-  Future<String> customisedRecipes(List<File> images) async{
+  Future<String> customisedRecipes(List<File> images, String email) async{
 
     //String url = 'http://10.0.2.2:5000/recognise_ingredients';
 
@@ -289,6 +289,10 @@ class APIService {
 
         print("file size${file.lengthSync()}");
       }
+
+      print("EMAIL ADDRESS:::$email");
+
+      formData.fields.add(MapEntry("email", email));
 
       print("C------------------------------------");
 
@@ -323,6 +327,43 @@ class APIService {
       return "no images";
     }
 
+
+  }
+
+
+  Future<List<FoodResponseModel>> getBestMatchedCustomisedRecipes() async{
+
+    //String url = 'http://10.0.2.2:5000/get_best_matched_recipes';
+
+    String url = "$baseUrl/get_best_matched_customised_recipes";
+
+    print('in future getBestMatchedCustomisedRecipes');
+
+    final response = await http.post(Uri.parse(url));
+
+    print('A--------------------------------------------------');
+
+    print('status code: ${response.statusCode}');
+
+    if(response.statusCode == 200) {
+      print('status code: ${response.statusCode}');
+
+      Iterable l = json.decode(response.body);
+
+      print(response.body);
+
+      print('iterable done...');
+
+      print('LENGTH: ${l.length}');
+
+      List<FoodResponseModel> recipes = List<FoodResponseModel>.from(l.map((e) => FoodResponseModel.fromJson(e)));
+
+      print('recipe list done');
+
+      return recipes;
+    } else {
+      throw Exception("failed to load data");
+    }
 
   }
 
