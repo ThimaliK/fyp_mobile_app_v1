@@ -148,6 +148,31 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
                   child: Text("Tags: ${recipe.tags}")
               ),
             ),
+
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/home');
+                    },
+
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white70, maximumSize: const Size.fromHeight(50),
+                        shadowColor: Colors.black,
+                        side: const BorderSide(
+                            width: 1, // the thickness
+                            color: Colors.black // the color of the border
+                        )
+                    ),
+                    child: const Text('Back to Home', style: TextStyle(color: Colors.black),),
+                  ),
+              ),
+            ),
+
+
+
           ],
         ),
       )
