@@ -36,7 +36,7 @@ class _RecipeListState extends State<RecipeList> {
     }
 
     return SizedBox(height: 60,
-    child: Column(children: list),);
+      child: Column(children: list),);
   }
 
 
@@ -46,35 +46,52 @@ class _RecipeListState extends State<RecipeList> {
     for(var i = 0; i < recipes.length; i++){
 //
       list.add(Flexible(
-        child: GestureDetector(
-          child: 
-          Padding(
-            padding: const EdgeInsets.all(7),
-            child: Card(
-              color: Colors.white70,
-              margin: const EdgeInsets.all(5),
-              child: SizedBox(
-                height: 50,
-                child: Column(
-                  children: <Widget>[
-                    Flexible(
-                      child: ListTile(
-                        title: Text(recipes[i].name),
+          child: GestureDetector(
+            child:
+            Padding(
+              padding: const EdgeInsets.all(7),
+              child: Card(
+                color: Colors.white70,
+                margin: const EdgeInsets.all(5),
+                child: SizedBox(
+                  height: 100,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Flexible(
+                        child: ListTile(
+                          title: Text(recipes[i].name),
+                        ),
                       ),
-                    ),
-                    // Flexible(child: Text("Ingredients"),),
-                    // getTextWidgets(ingredientList),
+                      // Flexible(child: Text("Ingredients"),),
+                      // getTextWidgets(ingredientList),
 
-                  ],
+                      //
+
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 30, 25),
+                        child: Container(
+                          alignment: Alignment.centerRight,
+                          height: 60,
+                            width: 60,
+                            color: Colors.white,
+                            child: Image.asset(
+                              'assets/landing_page_image.jpg',
+                            )
+                        ),
+                      ),
+
+                    ],
+                  ),
                 ),
+                //ONCLICK
               ),
-              //ONCLICK
             ),
-          ),
-          onTap: () =>
-          Navigator.pushNamed(context, '/individual_recipe',
-              arguments: {'data': recipes[i]}),
-        )
+            onTap: () =>
+                Navigator.pushNamed(context, '/individual_recipe',
+                    arguments: {'data': recipes[i]}),
+          )
       ));
     }
     return SizedBox(
@@ -99,51 +116,54 @@ class _RecipeListState extends State<RecipeList> {
       appBar: AppBar(title: const Text('Recipe Suggestions'), backgroundColor: Colors.deepPurple,),
 
       body: SafeArea(
-        child:
-
-        SingleChildScrollView(
           child:
-          Column(
-            children: [
-            FutureBuilder<List<FoodResponseModel>> (
-              future: apiService.getBestMatchedRecipes(),
-              builder: (context, snapshot) {
-                if(snapshot.data==null) {
-                  return const CircularProgressIndicator();
-                }
-                else if(snapshot.hasData) {
-                  return SizedBox(
-                    height: 500,
-                    child: Column(
 
-                      children: [
-                        // Text(snapshot.data!.first.ingredients),
-                        // SizedBox(height: 10.0,),
-                        // Text(snapshot.data!.first.name)
+          SingleChildScrollView(
+            child:
+            Column(
+                children: [
 
-                        getRecipeWidgets(snapshot.data!)
+                  SingleChildScrollView(
+                    child: FutureBuilder<List<FoodResponseModel>> (
+                      future: apiService.getBestMatchedRecipes(),
+                      builder: (context, snapshot) {
+                        if(snapshot.data==null) {
+                          return const CircularProgressIndicator();
+                        }
+                        else if(snapshot.hasData) {
+                          return SizedBox(
+                            height: 750,
+                            child: Column(
 
-                      ],
+                              children: [
+                                // Text(snapshot.data!.first.ingredients),
+                                // SizedBox(height: 10.0,),
+                                // Text(snapshot.data!.first.name)
+
+                                getRecipeWidgets(snapshot.data!)
+
+                              ],
+                            ),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text("${snapshot.error}");
+                        }
+                        return const CircularProgressIndicator();
+                      },
                     ),
-                  );
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
-                return const CircularProgressIndicator();
-              },
+                  ),
+
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
+                    child: const Text('Get Customised Recipes'),
+                    onPressed: (){
+
+                    },
+                  ),
+
+                ]
             ),
-
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
-                  child: const Text('Get Customised Recipes'),
-                  onPressed: (){
-
-                  },
-                ),
-
-        ]
-          ),
-        )
+          )
       ),
     );
   }

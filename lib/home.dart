@@ -23,22 +23,37 @@ class _HomeState extends State<Home> {
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            
             children: <Widget>[
-
-              
               const SizedBox(height: 10,),
-              const Text('Welcome to MyHealth'),
+              const Text('Welcome to MyHealth!', style: TextStyle(fontSize: 18),
+                textAlign: TextAlign.center,),
               const SizedBox(height: 10,),
-              Card(
-                color: Colors.purple[100],
+              GestureDetector(
                 child:
-                IconButton(onPressed: () {
-                  Navigator.pushNamed(context, '/camera_input');
-                },
-                    icon: const Icon(Icons.camera_alt),
-                  iconSize: 250,
+                SizedBox(
+                  height: 280,
+                  child: Card(
+                    color: Colors.purple[100],
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 10,),
+                        const Expanded(
+                          child: ListTile(
+                            title: Text("Take photos of ingredients to find Healthy Recipes!", textAlign: TextAlign.center,),
+                          ),
+                        ),
+                        IconButton(onPressed: () {
+                          Navigator.pushNamed(context, '/camera_input');
+                        },
+                          icon: const Icon(Icons.camera_alt_rounded, color: Colors.black,),
+                          iconSize: 200,
+                        ),
+                      ],
+                    )
+
+                  ),
                 ),
+                onTap: () => Navigator.pushNamed(context, '/camera_input'),
               ),
               const SizedBox(height: 10,),
               Card(
@@ -59,18 +74,7 @@ class _HomeState extends State<Home> {
                     ),
                   ],
                 )
-
-
-
               ),
-
-              // Row(
-              //   children: <Widget>[
-              //     Card(
-              //       color:
-              //     )
-              //   ],
-              // ),
             ],
           ),
         ),

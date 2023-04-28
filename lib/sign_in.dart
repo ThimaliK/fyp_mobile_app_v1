@@ -44,79 +44,105 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(appBar: AppBar(
-      title: const Text('Login to your Account'),
+      title: const Text('MyHealth'),
       backgroundColor: Colors.deepPurple,
+      centerTitle: true,
     ),
         body: Padding(
             padding: const EdgeInsets.all(15),
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: TextField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Email',
-                      hintText: 'Enter your email',
+            child: 
+            
+            SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+
+                  const SizedBox(height: 20,),
+
+                  const Text("Log in to your MyHealth Account", 
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),),
+
+                  const SizedBox(height: 20,),
+
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: TextField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+                        ),
+                        labelText: 'Email',
+                        labelStyle: TextStyle(color: Colors.deepPurple),
+                        hintText: 'Enter your email',
+                      ),
+                      controller: emailController,
+                      cursorColor: Colors.deepPurple,
                     ),
-                    controller: emailController,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: TextField(
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Password',
-                      hintText: 'Enter your Password',
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: TextField(
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+                        ),
+                        labelText: 'Password',
+                        labelStyle: TextStyle(color: Colors.deepPurple),
+                        hintText: 'Enter your Password',
+                      ),
+                      controller: passwordController,
+                      cursorColor: Colors.deepPurple,
                     ),
-                    controller: passwordController,
+
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Text(message, style: const TextStyle(color: Colors.red),)
 
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Text(message, style: const TextStyle(color: Colors.red),)
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
+                    onPressed: (){
+                      String email = emailController.text;
+                      String password = passwordController.text;
 
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(primary: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
-                  onPressed: (){
-                    String email = emailController.text;
-                    String password = passwordController.text;
+                      setState(() {
 
-                    setState(() {
+                      });
 
-                    });
+                      requestModel.email = email;
+                      requestModel.password = password;
 
-                    requestModel.email = email;
-                    requestModel.password = password;
+                      setState(() {
 
-                    setState(() {
+                      });
+                      print(requestModel.toJson());
 
-                    });
-                    print(requestModel.toJson());
+                      APIService apiService = APIService();
+                      print('api service created');
 
-                    APIService apiService = APIService();
-                    print('api service created');
-
-                    apiService.login(requestModel).then((value) => {
-                      if(value.response.isNotEmpty) {
-                        if(value.response == "logged in") {
-                          Navigator.pushNamed(context, '/home')
-                        } else {
-                          print("wrong${value.response}"),
-                          setState(() {
-                            message = value.response;
-                          })
+                      apiService.login(requestModel).then((value) => {
+                        if(value.response.isNotEmpty) {
+                          if(value.response == "logged in") {
+                            Navigator.pushNamed(context, '/home')
+                          } else {
+                            print("wrong${value.response}"),
+                            setState(() {
+                              message = value.response;
+                            })
+                          }
                         }
-                      }
-                    });
-                  },
-                  child: const Text('Log In'),
-                )
-              ],
+                      });
+                    },
+                    child: const Text('Log In'),
+                  )
+                ],
+              ),
             )
         )
     );

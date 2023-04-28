@@ -18,15 +18,19 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
     List<Widget> list = <Widget>[];
 
     for(var i = 0; i < data.length; i++){
-      list.add(Flexible(child:
-      Text(data[i])
-      )
+      list.add(
+
+      Text(data[i].trim())
+
       );
     }
-    return SizedBox(height: 200,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-          children: list),);
+    return
+
+      Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+            children: list),
+      );
   }
 
 
@@ -60,26 +64,52 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
         centerTitle: true,
       ),
       body: 
-      Column(
-        children: <Widget>[
-          // Text(recipe.name),
-          // Text(recipe.ingredients),
-          // Text(recipe.method),
+      SingleChildScrollView(
+        child:
+        Column(
+          children: <Widget>[
 
-          Flexible(
-            child: ListTile(
-              title: Text(recipe.name),
+            Padding(
+              padding: const EdgeInsets.all(15),
+                child: Text(recipe.name, style: const TextStyle(fontSize: 20),)
             ),
-          ),
-          getTextWidgets(ingredientList),
-          //SizedBox(height: 7,),
-          Padding(
-            padding: EdgeInsets.all(20),
-              child: getTextWidgets(methodSteps)),
-          //getTextWidgets(nutritionInfoList),
-          // SizedBox(height: 10,),
-          // getTextWidgets(nutritionInfoList)
-        ],
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [Image.asset(
+                    'assets/landing_page_image.jpg',
+              ),]
+            ),
+
+
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: getTextWidgets(ingredientList)
+              ),
+            ),
+
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: getTextWidgets(methodSteps)
+              ),
+            ),
+
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: getTextWidgets(nutritionInfoList)
+              ),
+            ),
+
+
+
+          ],
+        ),
       )
     );
   }

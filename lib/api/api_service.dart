@@ -80,7 +80,7 @@ class APIService {
 
       //String url = 'http://10.0.2.2:5000/recognise_ingredients';
 
-      String url = "$baseUrl/recognise_ingredients";
+      String url = "http://fyp-trial-2-env.eba-cwcfw5nz.eu-west-2.elasticbeanstalk.com/recognise_ingredients";
 
       print('in future recognise_ingredients');
 
@@ -103,6 +103,9 @@ class APIService {
         print('3------------------------------------');
 
         var responsed = await response.stream.bytesToString(utf8);
+
+        print("response "+responsed.toString());
+        print("code "+response.statusCode.toString());
 
         if(response.statusCode == 200) {
           print('status code: ${response.statusCode}');

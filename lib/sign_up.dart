@@ -18,7 +18,10 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
 
   List<String> tags = [];
-  List<String> options = ['Vegan', 'Vegetarian', 'Chinese', 'Freezable', 'Gluten-free', 'Spicy', 'Fresh'];
+  List<String> options = ['Healthy', 'Low calorie', 'Freezable', 'French cuisine', 'Fresh',
+  'Vegetarian', 'Vegan', 'Gluten-free', 'Flavourful', 'Rich in protein', 'Indian cuisine', 'Spicy', 'Low-fat',
+  'Mediterranean', 'Asian cuisine', 'Fruity', 'Dairy', 'Warm', 'Sweet', 'Italian cuisine',
+  'Egg-free', 'Dairy-free', ];
 
   String validationMessage = "";
 
@@ -80,11 +83,16 @@ class _SignUpState extends State<SignUp> {
                     padding: const EdgeInsets.all(15),
                     child: TextField(
                       decoration: const InputDecoration(
-
-                        border: OutlineInputBorder(borderSide: BorderSide(color: Colors.deepPurple)),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.deepPurple)),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+                        ),
                         labelText: 'Username',
+                        labelStyle: TextStyle(color: Colors.deepPurple),
                         hintText: 'Enter your username',
                       ),
+                      cursorColor: Colors.deepPurple,
                       controller: usernameController,
                     ),
                   ),
@@ -92,12 +100,18 @@ class _SignUpState extends State<SignUp> {
                     padding: const EdgeInsets.all(15),
                     child: TextField(
                       decoration: const InputDecoration(
-                        border: OutlineInputBorder(borderSide: BorderSide(color: Colors.deepPurple)),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.deepPurple)),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+                        ),
                         labelText: 'Email',
+                        labelStyle: TextStyle(color: Colors.deepPurple),
                         hintText: 'Enter your email address',
 
                       ),
                       controller: emailController,
+                      cursorColor: Colors.deepPurple,
                     ),
                   ),
                   Padding(
@@ -105,11 +119,17 @@ class _SignUpState extends State<SignUp> {
                     child: TextField(
                       obscureText: true,
                       decoration: const InputDecoration(
-                        border: OutlineInputBorder(borderSide: BorderSide(color: Colors.deepPurple)),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.deepPurple)),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+                        ),
                         labelText: 'Password',
+                        labelStyle: TextStyle(color: Colors.deepPurple),
                         hintText: 'Enter password',
                       ),
                       controller: passwordController,
+                      cursorColor: Colors.deepPurple,
                     ),
                   ),
                   Padding(
@@ -117,18 +137,45 @@ class _SignUpState extends State<SignUp> {
                     child: TextField(
                       obscureText: true,
                       decoration: const InputDecoration(
-                        border: OutlineInputBorder(borderSide: BorderSide(color: Colors.deepPurple)),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.deepPurple)),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+                        ),
                         labelText: 'Confirm Password',
+                        labelStyle: TextStyle(color: Colors.deepPurple),
                         hintText: 'Enter password again to confirm',
                       ),
                       controller: confirmPasswordController,
+                      cursorColor: Colors.deepPurple,
                     ),
                   ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: TextField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.deepPurple)),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+                        ),
+                        labelText: 'Fitbit User ID',
+                        labelStyle: TextStyle(color: Colors.deepPurple),
+                        hintText: 'Enter Fitbit User ID to view health data',
+                      ),
+                      controller: fitbitIdController,
+                      cursorColor: Colors.deepPurple,
+                    ),
+                  ),
+
+
                   Padding(
                     padding: const EdgeInsets.all(15),
                     child: ElevatedButton(
                       onPressed: () {
                         showCountryPicker(
+
                           context: context,
                           //Optional.  Can be used to exclude(remove) one ore more country from the countries list (optional).
                           exclude: <String>['KN', 'MF'],
@@ -168,32 +215,18 @@ class _SignUpState extends State<SignUp> {
                           ),
                         );
                       },
-                      style: ElevatedButton.styleFrom(primary: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
-                      child: Text('Click to select Country $selectedCountry'),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white, maximumSize: const Size.fromHeight(50),
+                          side: const BorderSide(
+                          width: 1, // the thickness
+                          color: Colors.black54 // the color of the border
+                      )),
+                      child: Text('Click to select Country $selectedCountry',
+                        style: const TextStyle(color: Colors.deepPurple),),
                     ),
                   ),
-                  // Padding(
-                  //   padding: EdgeInsets.all(15),
-                  //   child: TextField(
-                  //     decoration: const InputDecoration(
-                  //       border: OutlineInputBorder(),
-                  //       labelText: 'Food Preferences',
-                  //       hintText: 'Enter your food preferences',
-                  //     ),
-                  //     controller: foodPrefController,
-                  //   ),
-                  // ),
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: TextField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(borderSide: BorderSide(color: Colors.deepPurple)),
-                        labelText: 'Fitbit User ID',
-                        hintText: 'Enter Fitbit User ID to view health data',
-                      ),
-                      controller: fitbitIdController,
-                    ),
-                  ),
+
+
                   Padding(
                     padding: const EdgeInsets.all(15),
                     child: ChipsChoice<String>.multiple(
@@ -274,8 +307,6 @@ class _SignUpState extends State<SignUp> {
                         });
 
                       }
-
-
 
                     },
                     style: ElevatedButton.styleFrom(primary: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),

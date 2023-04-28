@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fyp_mobile_app_v1/models/food_model.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:http/http.dart' as http;
 import 'api/api_service.dart';
-
 
 
 class CameraInput extends StatefulWidget {
@@ -40,96 +38,139 @@ class _CameraInputState extends State<CameraInput> {
       //getImage();
     });
 
-    }
+  }
 
-    Future getImagesFromGallery() async {
-      final image = await imagePicker.pickImage(source: ImageSource.gallery);
-      setState(() {
-        _image = File(image!.path);
-        _images.add(_image);
-        //getImage();
-      });
+  Future getImagesFromGallery() async {
+    final image = await imagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = File(image!.path);
+      _images.add(_image);
+      //getImage();
+    });
 
-    }
+  }
 
-    Widget photosPreview() {
-      return GridView.builder(
-        itemCount: _images.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 4.0,
-            mainAxisSpacing: 4.0
-        ),
-        itemBuilder: (BuildContext context, int index){
-          //
-          return
-            SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                Image.file(_images[index]),
-                IconButton(onPressed: () {
-                  print("icon button click");
-                  _images.remove(_images[index]);
-                  setState(() {
+  Widget photosPreview() {
+    return GridView.builder(
+      itemCount: _images.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 4.0,
+          //mainAxisSpacing: 2.0,
+        mainAxisExtent: 225
+      ),
+      itemBuilder: (BuildContext context, int index){
+        //
+        return
+          SingleChildScrollView(
 
-                  });
-                },
-                  icon: const Icon(Icons.delete),
-                  iconSize: 20,
-                  alignment: Alignment.bottomRight,
-                ),
-              ],),
-            );
-        },
-      );
-    }
+            child: 
+            
+            Container(
 
-
-    @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Take photos of Ingredients'),
-          backgroundColor: Colors.deepPurple[700],
-          centerTitle: true,
-        ),
-          body: Column(
-            children: <Widget> [Expanded(
-              child: Container(
-                  padding: EdgeInsets.all(12.0),
-                  child: photosPreview()
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black54, width: 2,),
+                borderRadius: const BorderRadius.all(Radius.circular(5)),
               ),
+
+              child: Column(
+
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.file(_images[index]),
+                  IconButton(
+                    onPressed: () {
+                    //print("icon button click");
+                    _images.remove(_images[index]);
+                    setState(() {
+
+                    });
+                  },
+                    icon: const Icon(Icons.delete, color: Colors.black54,),
+                    iconSize: 25,
+                    alignment: Alignment.center,
+                    
+                  ),
+                ],),
             ),
-              SizedBox(height: 10.0,),
+          );
+      },
+    );
+  }
 
-              Container(
-                padding: EdgeInsets.fromLTRB(0, 0, 20, 20),
 
-                alignment: Alignment.bottomRight,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    ElevatedButton(
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Take photos of Ingredients'),
+        backgroundColor: Colors.deepPurple,
+        centerTitle: true,
+      ),
+      body: Column(
+          children: <Widget> [
+            Expanded(
+
+            child: Container(
+                padding: const EdgeInsets.fromLTRB(8, 5, 8, 0),
+                child: photosPreview()
+            ),
+          ),
+            const SizedBox(height: 10.0,),
+
+            Container(
+              padding: const EdgeInsets.fromLTRB(0, 0, 20, 20),
+
+              alignment: Alignment.bottomRight,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                          onPressed: () {
+                            getImagesFromGallery();
+                          },
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white70, maximumSize: const Size.fromHeight(50),
+                              side: const BorderSide(
+                                  width: 1, // the thickness
+                                  color: Colors.black // the color of the border
+                              )
+
+                          ),
+
+                              child: const Text('Gallery', style: TextStyle(color: Colors.black),)
+                      ),
+                      //SizedBox(height: 10.0,),
+                      const SizedBox(width: 20,),
+                      ElevatedButton(
                         onPressed: () {
-                          getImagesFromGallery();
+                          getImage();
                         },
-                        style: ElevatedButton.styleFrom(primary: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
-                        child: const Text('Gallery')
-                    ),
-                    SizedBox(height: 10.0,),
-                    ElevatedButton(
-                      onPressed: () {
-                        getImage();
-                      },
-                      style: ElevatedButton.styleFrom(primary: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
-                      child: const Text('Camera'),
-                    ),
-                    SizedBox(height: 10.0,),
-                    ElevatedButton(
-                        onPressed: () {
 
-                          //List<File> images = _images;
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white70, maximumSize: const Size.fromHeight(50),
+                          shadowColor: Colors.black,
+                            side: const BorderSide(
+                                width: 1, // the thickness
+                                color: Colors.black // the color of the border
+                            )
+                        ),
+                        child: const Text('Camera', style: TextStyle(color: Colors.black),),
+                      ),
+                      //SizedBox(height: 10.0,),
+
+                    ],
+                  ),
+
+                  const SizedBox(height: 15,),
+
+                  ElevatedButton(
+                      onPressed: () {
+
+                        if(_images.isNotEmpty) {
 
                           setState(() {
 
@@ -137,41 +178,38 @@ class _CameraInputState extends State<CameraInput> {
 
                           APIService apiService = APIService();
 
-                          print('api service created');
+                          //print('api service created');
 
                           apiService.foodRecognition(_images).then((value) => {
-                            if(value.isNotEmpty && value=="top_5_recipes retrieved") {
-
+                            if(value.isNotEmpty && value=="top_5_recipes_retrieved") {
 
                               Navigator.pushNamed(context, '/recipe_list',
                                   arguments: {'photos': _images})
-
                             }
                           });
 
-                          print('foodRecognitionStatus - $foodRecognitionStatus');
-                        },
-                        style: ElevatedButton.styleFrom(primary: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
-                        child: Text('Get Recipes')
-                    ),
-                  ],
-                ),
+                          //print('foodRecognitionStatus - $foodRecognitionStatus');
+
+                        }
+
+
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
+                      child: const Text('Find Recipes')
+                  ),
+                ],
               ),
+            ),
+          ]
+      ),
 
 
 
-              
-            ]
-          ),
+    );
 
 
-
-      );
-
-
-    }
+  }
 
 }
-
-
 
