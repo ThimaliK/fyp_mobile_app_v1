@@ -33,8 +33,6 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
       );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
 
@@ -56,7 +54,6 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
     final nutritionInfoList = recipe.nutritionInfo.split(",");
 
 
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Recipe'),
@@ -76,9 +73,7 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
 
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [Image.asset(
-                    'assets/landing_page_image.jpg',
-              ),]
+              children: [Image.network(recipe.imageUrl),]
             ),
 
 
@@ -106,8 +101,53 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
               ),
             ),
 
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text("Country: ${recipe.country}")
+              ),
+            ),
 
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text("Cook time: ${recipe.cookTime.toString()}")
+              ),
+            ),
 
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text("Prep time: ${recipe.prepTime.toString()}")
+              ),
+            ),
+
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text("Servings: ${recipe.servings.toString()}")
+              ),
+            ),
+
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text("Difficulty level: ${recipe.difficultyLevel.toString()}")
+              ),
+            ),
+
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text("Tags: ${recipe.tags}")
+              ),
+            ),
           ],
         ),
       )

@@ -47,6 +47,7 @@ class _RecipeListState extends State<RecipeList> {
 //
       list.add(Flexible(
           child: GestureDetector(
+
             child:
             Padding(
               padding: const EdgeInsets.all(7),
@@ -59,6 +60,7 @@ class _RecipeListState extends State<RecipeList> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      //
                       Flexible(
                         child: ListTile(
                           title: Text(recipes[i].name),
@@ -76,9 +78,7 @@ class _RecipeListState extends State<RecipeList> {
                           height: 60,
                             width: 60,
                             color: Colors.white,
-                            child: Image.asset(
-                              'assets/landing_page_image.jpg',
-                            )
+                            child: Image.network(recipes[i].imageUrl),
                         ),
                       ),
 
