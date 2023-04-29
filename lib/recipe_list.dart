@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:fyp_mobile_app_v1/api/api_service.dart';
 import 'package:fyp_mobile_app_v1/models/food_model.dart';
@@ -19,13 +17,14 @@ class _RecipeListState extends State<RecipeList> {
 
   //late List<FoodResponseModel> recipes;
 
+  late Future <List<FoodResponseModel>> _recipes;
+
+
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-
-
   }
 
   Widget getTextWidgets(List<String> data)
@@ -114,9 +113,15 @@ class _RecipeListState extends State<RecipeList> {
       } else {
         data = ModalRoute.of(context)?.settings.arguments as Map;
       }
+      print("DATAAAAA:    "+data.toString());
+      // _recipes = data["recipe_data"];
+
+      _recipes = apiService.foodRecognition(data['photos']);
     });
 //
-    print("DATAAAAA:    "+data.toString());
+
+
+
 
 
 
@@ -133,13 +138,14 @@ class _RecipeListState extends State<RecipeList> {
 
                   SingleChildScrollView(
                     child: FutureBuilder<List<FoodResponseModel>> (
-                      future: apiService.getBestMatchedRecipes(),
+                      future: _recipes,
+                      initialData: [],
                       builder: (context, snapshot) {
 
-                        if(snapshot.data==null) {
-                          return const CircularProgressIndicator(color: Colors.deepPurple,);
-                        }
-                        else if(snapshot.hasData) {
+                        // if(snapshot.data==null) {
+                        //   return const CircularProgressIndicator(color: Colors.deepPurple,);
+                        // }
+                        if(snapshot.hasData) {
                           return SizedBox(
                             height: 750,
                             child: Column(
@@ -157,7 +163,7 @@ class _RecipeListState extends State<RecipeList> {
                         } else if (snapshot.hasError) {
                           return Text("${snapshot.error}");
                         }
-                        return const CircularProgressIndicator(color: Colors.deepPurple,);
+                        return CircularProgressIndicator(color: Colors.deepPurple,);
                       },
                     ),
                   ),

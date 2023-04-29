@@ -7,10 +7,10 @@ class FoodResponseModel {
   final String nutritionInfo;
   final String country;
   final String tags;
-  final int prepTime;
-  final int cookTime;
+  final String prepTime;
+  final String cookTime;
   final String difficultyLevel;
-  final int servings;
+  final String servings;
   final String imageUrl;
 
   FoodResponseModel(
@@ -22,17 +22,17 @@ class FoodResponseModel {
   FoodResponseModel.fromJson(Map<String, dynamic> json)
       :
   // _id = json['_id'],
-        name = json['name'],
-        ingredients = json['ingredients'],
-        method = json['method'],
-        nutritionInfo = json['nutrition_info'],
-        country = json['country'],
-        tags = json['tags'],
-        prepTime = json['prep_time'],
-        cookTime = json['cook_time'],
-        difficultyLevel = json['difficulty_level'],
-        servings = json['servings'],
-        imageUrl = json['image_url'];
+        name = json['name'].toString(),
+        ingredients = json['ingredients'].toString(),
+        method = json['method'].toString(),
+        nutritionInfo = json['nutrition_info'].toString(),
+        country = json['country'].toString(),
+        tags = json['tags'].toString(),
+        prepTime = json['prep_time'].toString(),
+        cookTime = json['cook_time'].toString(),
+        difficultyLevel = json['difficulty_level'].toString(),
+        servings = json['servings'].toString(),
+        imageUrl = json['image_url'].toString();
 }
 
 class FoodResponseListModel {

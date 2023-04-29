@@ -14,11 +14,22 @@ class CameraInput extends StatefulWidget {
 
 class _CameraInputState extends State<CameraInput> {
 
+
+
   Map routeData = {};
 
   File _image = File('assets/logo.png');
 
-  final List <File> _images = [];
+  List <File> _images = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    if(_images.isNotEmpty) {
+      _images = [];
+    }
+    super.initState();
+  }
 
   //String data = "test";
 
@@ -187,17 +198,26 @@ class _CameraInputState extends State<CameraInput> {
 
                           });
 
-                          APIService apiService = APIService();
+                          Navigator.pushNamed(context, '/recipe_list',
+                              arguments: {'photos': _images, 'email': routeData['email'], 'username': routeData['username'], 'bmi': routeData['bmi']});
 
-                          //print('api service created');
-
-                          apiService.foodRecognition(_images).then((value) => {
-                            if(value.isNotEmpty && value=="top_5_recipes_retrieved") {
-
-                              Navigator.pushNamed(context, '/recipe_list',
-                                  arguments: {'photos': _images, 'email': routeData['email'], 'username': routeData['username'], 'bmi': routeData['bmi']})
-                            }
-                          });
+                          // APIService apiService = APIService();
+                          //
+                          // //print('api service created');
+                          //
+                          // apiService.foodRecognition(_images).then((value) => {
+                          //   if(value.isNotEmpty) {
+                          //
+                          //     print("IMAGES LIST LENGTH------------------${_images.length}"),
+                          //
+                          //     print("recipe one - title ${value.first.name}"),
+                          //
+                          //     print("imagesssss${_images.toString()}"),
+                          //
+                          //     Navigator.pushNamed(context, '/recipe_list',
+                          //         arguments: {'photos': _images, 'email': routeData['email'], 'username': routeData['username'], 'bmi': routeData['bmi'], 'recipe_data': value})
+                          //   }
+                          // });
 
                           //print('foodRecognitionStatus - $foodRecognitionStatus');
 

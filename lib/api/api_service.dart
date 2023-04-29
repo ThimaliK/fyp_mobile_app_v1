@@ -80,112 +80,147 @@ class APIService {
 
   }
 
-  Future<String> foodRecognition(List<File> images) async{
+  Future<List<FoodResponseModel>> foodRecognition(List<File> images) async{
 
-      //String url = 'http://10.0.2.2:5000/recognise_ingredients';
-
-      String url = "http://fyp-trial-2-env.eba-cwcfw5nz.eu-west-2.elasticbeanstalk.com/recognise_ingredients";
-
-      print('in future recognise_ingredients');
-
-      var request = http.MultipartRequest('POST', Uri.parse(url));
-
-      print('1------------------------------------');
-
-      if (images.isNotEmpty) {
-
-        for (var i = 0; i < images.length; i++) {
-          request.files.add(http.MultipartFile('files[]',
-              File(images[i].path).readAsBytes().asStream(), File(images[i].path).lengthSync(),
-              filename: images[i].path));
-        }
-
-        print('2------------------------------------');
-
-        var response = await request.send();
-
-        print('3------------------------------------');
-
-        var responsed = await response.stream.bytesToString(utf8);
-
-        print("response "+responsed.toString());
-        print("code "+response.statusCode.toString());
-
-        if(response.statusCode == 200) {
-          print('status code: ${response.statusCode}');
-
-          print(responsed);
-
-          return responsed;
-
-        } else {
-          throw Exception("failed to load data");
-        }
-
-
-      }
-      return "failed";
-
-      // if(images.isNotEmpty) {
+      // //String url = 'http://10.0.2.2:5000/recognise_ingredients';
       //
-      //   print("A------------------------------------");
+      String url = "http://fyp-trial-2-env.eba-cwcfw5nz.eu-west-2.elasticbeanstalk.com/get_recipes_list";
       //
-      //   Dio dio = new Dio(); // with default Options
+      // print('in future recognise_ingredients');
       //
+      // var request = http.MultipartRequest('POST', Uri.parse(url));
       //
+      // print('1------------------------------------');
       //
+      // if (images.isNotEmpty) {
       //
-      //   // Set default configs
-      //   dio.options.baseUrl = baseUrl;
-      //   dio.options.connectTimeout = Duration(seconds: 20); //5s
-      //   dio.options.receiveTimeout = Duration(seconds: 20);
-      //
-      //
-      //
-      //   print("B------------------------------------");
-      //
-      //
-      //   var formData = FormData();
-      //   for (var file in images) {
-      //     formData.files.addAll([
-      //       MapEntry("files[]", await MultipartFile.fromFile(file.path)),
-      //     ]);
-      //
-      //     print("file size${file.lengthSync()}");
+      //   for (var i = 0; i < images.length; i++) {
+      //     request.files.add(http.MultipartFile('files[]',
+      //         File(images[i].path).readAsBytes().asStream(), File(images[i].path).lengthSync(),
+      //         filename: images[i].path));
       //   }
       //
-      //   print("C------------------------------------");
+      //   print('2------------------------------------');
       //
-      //   var response = await dio.post(url, data: formData);
+      //   var response = await request.send();
       //
-      //   print("D------------------------------------");
+      //   print('3------------------------------------');
       //
-      //   if (response.statusCode == 200) {
-      //     //apiResponse.onSuccess(response.toString(), eventType);
+      //   var responsed = await response.stream.bytesToString(utf8);
       //
-      //     print("E------------------------------------");
+      //   print("response "+responsed.toString());
+      //   print("code "+response.statusCode.toString());
       //
-      //     print("Image Uploaded");
+      //   if(response.statusCode == 200) {
+      //     print('status code: ${response.statusCode}');
       //
-      //     print(response.data.toString());
+      //     print(responsed);
       //
-      //     return response.data.toString();
-      //
+      //     return responsed;
       //
       //   } else {
-      //     //apiResponse.onError('Failed to load post');
-      //
-      //     print(response.data.toString());
-      //
-      //     print("Upload Failed");
-      //
-      //     return "failed";
-      //
+      //     throw Exception("failed to load data");
       //   }
       //
-      // } else {
-      //   return "no images";
+      //
       // }
+      // return "failed";
+
+      if(images.isNotEmpty) {
+
+        print("A------------------------------------");
+
+        Dio dio = new Dio(); // with default Options
+
+        // Set default configs
+        dio.options.baseUrl = baseUrl;
+        dio.options.connectTimeout = Duration(seconds: 20); //5s
+        dio.options.receiveTimeout = Duration(seconds: 20);
+
+
+
+        print("B------------------------------------");
+
+
+        var formData = FormData();
+        for (var file in images) {
+          formData.files.addAll([
+            MapEntry("files[]", await MultipartFile.fromFile(file.path)),
+          ]);
+
+          print("file size${file.lengthSync()}");
+        }
+
+        print("C------------------------------------");
+
+        var response = await dio.post(url, data: formData);
+
+        print("D------------------------------------");
+
+        if (response.statusCode == 200) {
+          //apiResponse.onSuccess(response.toString(), eventType);
+
+          print("E------------------------------------");
+
+          print("Image Uploaded");
+
+          var x = jsonEncode(response.data);
+
+          print(x.toString());
+
+          //List<FoodResponseModel> recipes = jsonDecode(x.toString());
+
+          //print(jsonDecode(response.data));
+
+          // return (response.data as List)
+          //     .map((x) => FoodResponseModel.fromJson(x))
+          //     .toList();
+
+          // Iterable l = json.decode(response.data.toString());
+          //
+          // print('LENGTH: ${l.length}');
+          //
+          //
+          // List<FoodResponseModel> recipes =
+          // List<FoodResponseModel>.from(l.map((e) => FoodResponseModel.fromJson(e)));
+
+          // return (response.data as List)
+          //     .map((x) => FoodResponseModel.fromJson(x))
+          //     .toList();
+
+          //return recipes;
+
+          print("AAA");
+
+          //print(data.first["name"]);
+          //Iterable l = jsonDecode(response.data);
+
+          print("BBB");
+
+          //List<FoodResponseModel> recipes = List<FoodResponseModel>.from(response.data.map((e) => FoodResponseModel.fromJson(e)));
+
+          //return recipes;
+
+          Iterable l = json.decode(x.toString());
+
+          List<FoodResponseModel> recipes = List<FoodResponseModel>.from(l.map((e) => FoodResponseModel.fromJson(e)));
+
+          return recipes;
+
+        } else {
+          //apiResponse.onError('Failed to load post');
+
+          print(response.data.toString());
+
+          print("Upload Failed");
+
+          throw Exception("failed");
+
+        }
+
+      } else {
+        throw Exception("no images uploaded");
+      }
 
 
     }
@@ -194,6 +229,8 @@ class APIService {
 
 
   Future<List<FoodResponseModel>> getBestMatchedRecipes() async{
+
+    await Future.delayed(const Duration(seconds: 10));
 
     //String url = 'http://10.0.2.2:5000/get_best_matched_recipes';
 
@@ -210,7 +247,7 @@ class APIService {
     if(response.statusCode == 200) {
       print('status code: ${response.statusCode}');
 
-      Iterable l = json.decode(response.body);
+      Iterable l = json.decode(response.body);  //
 
       print(response.body);
 
