@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fyp_mobile_app_v1/api/api_service.dart';
 import 'package:fyp_mobile_app_v1/models/food_model.dart';
@@ -133,8 +135,9 @@ class _RecipeListState extends State<RecipeList> {
                     child: FutureBuilder<List<FoodResponseModel>> (
                       future: apiService.getBestMatchedRecipes(),
                       builder: (context, snapshot) {
+
                         if(snapshot.data==null) {
-                          return const CircularProgressIndicator();
+                          return const CircularProgressIndicator(color: Colors.deepPurple,);
                         }
                         else if(snapshot.hasData) {
                           return SizedBox(
@@ -154,7 +157,7 @@ class _RecipeListState extends State<RecipeList> {
                         } else if (snapshot.hasError) {
                           return Text("${snapshot.error}");
                         }
-                        return const CircularProgressIndicator();
+                        return const CircularProgressIndicator(color: Colors.deepPurple,);
                       },
                     ),
                   ),

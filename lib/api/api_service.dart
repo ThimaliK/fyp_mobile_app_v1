@@ -86,106 +86,106 @@ class APIService {
 
       String url = "http://fyp-trial-2-env.eba-cwcfw5nz.eu-west-2.elasticbeanstalk.com/recognise_ingredients";
 
-      // print('in future recognise_ingredients');
-      //
-      // var request = http.MultipartRequest('POST', Uri.parse(url));
-      //
-      // print('1------------------------------------');
-      //
-      // if (images.isNotEmpty) {
-      //
-      //   for (var i = 0; i < images.length; i++) {
-      //     request.files.add(http.MultipartFile('files[]',
-      //         File(images[i].path).readAsBytes().asStream(), File(images[i].path).lengthSync(),
-      //         filename: images[i].path));
-      //   }
-      //
-      //   print('2------------------------------------');
-      //
-      //   var response = await request.send();
-      //
-      //   print('3------------------------------------');
-      //
-      //   var responsed = await response.stream.bytesToString(utf8);
-      //
-      //   print("response "+responsed.toString());
-      //   print("code "+response.statusCode.toString());
-      //
-      //   if(response.statusCode == 200) {
-      //     print('status code: ${response.statusCode}');
-      //
-      //     print(responsed);
-      //
-      //     return responsed;
-      //
-      //   } else {
-      //     throw Exception("failed to load data");
-      //   }
-      //
-      //
-      // }
-      // return "failed";
+      print('in future recognise_ingredients');
 
-      if(images.isNotEmpty) {
+      var request = http.MultipartRequest('POST', Uri.parse(url));
 
-        print("A------------------------------------");
+      print('1------------------------------------');
 
-        Dio dio = new Dio(); // with default Options
+      if (images.isNotEmpty) {
 
-
-
-
-        // Set default configs
-        dio.options.baseUrl = baseUrl;
-        dio.options.connectTimeout = Duration(seconds: 20); //5s
-        dio.options.receiveTimeout = Duration(seconds: 20);
-
-
-
-        print("B------------------------------------");
-
-
-        var formData = FormData();
-        for (var file in images) {
-          formData.files.addAll([
-            MapEntry("files[]", await MultipartFile.fromFile(file.path)),
-          ]);
-
-          print("file size${file.lengthSync()}");
+        for (var i = 0; i < images.length; i++) {
+          request.files.add(http.MultipartFile('files[]',
+              File(images[i].path).readAsBytes().asStream(), File(images[i].path).lengthSync(),
+              filename: images[i].path));
         }
 
-        print("C------------------------------------");
+        print('2------------------------------------');
 
-        var response = await dio.post(url, data: formData);
+        var response = await request.send();
 
-        print("D------------------------------------");
+        print('3------------------------------------');
 
-        if (response.statusCode == 200) {
-          //apiResponse.onSuccess(response.toString(), eventType);
+        var responsed = await response.stream.bytesToString(utf8);
 
-          print("E------------------------------------");
+        print("response "+responsed.toString());
+        print("code "+response.statusCode.toString());
 
-          print("Image Uploaded");
+        if(response.statusCode == 200) {
+          print('status code: ${response.statusCode}');
 
-          print(response.data.toString());
+          print(responsed);
 
-          return response.data.toString();
-
+          return responsed;
 
         } else {
-          //apiResponse.onError('Failed to load post');
-
-          print(response.data.toString());
-
-          print("Upload Failed");
-
-          return "failed";
-
+          throw Exception("failed to load data");
         }
 
-      } else {
-        return "no images";
+
       }
+      return "failed";
+
+      // if(images.isNotEmpty) {
+      //
+      //   print("A------------------------------------");
+      //
+      //   Dio dio = new Dio(); // with default Options
+      //
+      //
+      //
+      //
+      //   // Set default configs
+      //   dio.options.baseUrl = baseUrl;
+      //   dio.options.connectTimeout = Duration(seconds: 20); //5s
+      //   dio.options.receiveTimeout = Duration(seconds: 20);
+      //
+      //
+      //
+      //   print("B------------------------------------");
+      //
+      //
+      //   var formData = FormData();
+      //   for (var file in images) {
+      //     formData.files.addAll([
+      //       MapEntry("files[]", await MultipartFile.fromFile(file.path)),
+      //     ]);
+      //
+      //     print("file size${file.lengthSync()}");
+      //   }
+      //
+      //   print("C------------------------------------");
+      //
+      //   var response = await dio.post(url, data: formData);
+      //
+      //   print("D------------------------------------");
+      //
+      //   if (response.statusCode == 200) {
+      //     //apiResponse.onSuccess(response.toString(), eventType);
+      //
+      //     print("E------------------------------------");
+      //
+      //     print("Image Uploaded");
+      //
+      //     print(response.data.toString());
+      //
+      //     return response.data.toString();
+      //
+      //
+      //   } else {
+      //     //apiResponse.onError('Failed to load post');
+      //
+      //     print(response.data.toString());
+      //
+      //     print("Upload Failed");
+      //
+      //     return "failed";
+      //
+      //   }
+      //
+      // } else {
+      //   return "no images";
+      // }
 
 
     }
