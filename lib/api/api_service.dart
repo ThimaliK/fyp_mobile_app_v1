@@ -53,7 +53,7 @@ class APIService {
   Future<LoginResponseModel> loadLoginData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? username = prefs.getString('username');
-    String? email = prefs.getString('username');
+    String? email = prefs.getString('email');
     String? bmi = prefs.getString('bmi');
 
     return LoginResponseModel(username as String, bmi as String, email as String);
@@ -268,9 +268,9 @@ class APIService {
 
   Future<GetCustomisedRecipesResponseModel> getCustomisedRecipes(List<File> images, String email) async{
 
-    // //String url = 'http://10.0.2.2:5000/recognise_ingredients';
+    String url = 'http://10.0.2.2:5000/get_customised_recipes_list';
     //
-    String url = "http://fyp-trial-2-env.eba-cwcfw5nz.eu-west-2.elasticbeanstalk.com/get_customised_recipes_list";
+    //String url = "http://fyp-trial-2-env.eba-cwcfw5nz.eu-west-2.elasticbeanstalk.com/get_customised_recipes_list";
 
 
     if(images.isNotEmpty && email.isNotEmpty) {

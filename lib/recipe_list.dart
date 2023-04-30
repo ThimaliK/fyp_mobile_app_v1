@@ -160,7 +160,7 @@ class _RecipeListState extends State<RecipeList> {
                           List<FoodResponseModel> recipes = List<FoodResponseModel>.from(l.map((e) => FoodResponseModel.fromJson(e)));
 
                           return SizedBox(
-                            height: 750,
+                            height: 1000,
                             child:
 
                             SingleChildScrollView(
@@ -176,7 +176,29 @@ class _RecipeListState extends State<RecipeList> {
                                     height: 40,
                                   ),
 
-                                  getRecipeWidgets(recipes)
+                                  getRecipeWidgets(recipes),
+
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
+                                    child: const Text('Find Customised Recipes'),
+                                    onPressed: (){
+
+                                      Navigator.pushNamed(context, '/customised_recipe_list',
+                                          arguments: {'photos': data['photos'], 'email': data['email'], 'username': data['username'], 'bmi': data['bmi']});
+
+                                      //APIService apiService = APIService();  //
+
+                                      // apiService.customisedRecipes(data['photos'], data['email']).then((value) => {
+                                      //   if(value.isNotEmpty && value=="5_cutomised_recipes_extracted") {
+                                      //
+                                      //
+                                      //   }
+                                      // });
+
+                                      //
+
+                                    },
+                                  ),
 
                                 ],
                               ),
@@ -190,25 +212,7 @@ class _RecipeListState extends State<RecipeList> {
                     ),
                   ),
 
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
-                    child: const Text('Find Customised Recipes'),
-                    onPressed: (){
 
-                      Navigator.pushNamed(context, '/customised_recipe_list',
-                          arguments: {'photos': data['photos'], 'email': data['email'], 'username': data['username'], 'bmi': data['bmi']});
-
-                      //APIService apiService = APIService();  //
-
-                      // apiService.customisedRecipes(data['photos'], data['email']).then((value) => {
-                      //   if(value.isNotEmpty && value=="5_cutomised_recipes_extracted") {
-                      //
-                      //
-                      //   }
-                      // });
-
-                    },
-                  ),
 
                 ]
             ),

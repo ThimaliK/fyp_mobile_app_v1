@@ -117,6 +117,10 @@ class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
       print("DATAAAAA:    "+data.toString());
       // _recipes = data["recipe_data"];
 
+      print("sending email: ${data["email"]}");
+
+      //
+
       _response = apiService.getCustomisedRecipes(data['photos'], data['email']);
 
 
