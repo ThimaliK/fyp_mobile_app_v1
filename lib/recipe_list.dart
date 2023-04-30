@@ -214,7 +214,12 @@ class _RecipeListState extends State<RecipeList> {
                         } else if (snapshot.hasError) {
                           return Text("${snapshot.error}");
                         }
-                        return CircularProgressIndicator(color: Colors.deepPurple,);
+                        return 
+                          Container(
+                            height: 200,
+                            alignment: Alignment.center,
+                              child: CircularProgressIndicator(color: Colors.deepPurple,)
+                          );
                       },
                     ),
                   ),

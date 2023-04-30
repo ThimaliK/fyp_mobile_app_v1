@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:fyp_mobile_app_v1/api/api_service.dart';
 import 'package:fyp_mobile_app_v1/models/food_model.dart';
@@ -57,9 +56,9 @@ class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
               padding: const EdgeInsets.all(7),
               child: Card(
                 color: Colors.white70,
-                margin: const EdgeInsets.all(5),
+                //margin: const EdgeInsets.all(5),
                 child: SizedBox(
-                  height: 100,
+                  height: 110,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -76,11 +75,11 @@ class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
                       //
 
                       Padding(
-                        padding: EdgeInsets.fromLTRB(0, 0, 30, 25),
+                        padding: EdgeInsets.fromLTRB(0, 0, 30, 20),
                         child: Container(
                           alignment: Alignment.centerRight,
-                          height: 60,
-                            width: 60,
+                          height: 70,
+                            width: 70,
                             color: Colors.white,
                             child: Image.network(recipes[i].imageUrl),
                         ),
@@ -99,7 +98,7 @@ class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
       ));
     }
     return SizedBox(
-      height: 750,
+      height: 1200,
       child: Column(children: list),
     );
   }
@@ -130,7 +129,7 @@ class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
 
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Customised Recipe Suggestions'), backgroundColor: Colors.deepPurple,),
+      appBar: AppBar(title: const Text('Recipes based on your Preferences'), backgroundColor: Colors.deepPurple,),
 
       body: SafeArea(
           child:
@@ -145,7 +144,12 @@ class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
                       future: _response,
                       builder: (context, snapshot) {
                         if(snapshot.data==null) {
-                          return const CircularProgressIndicator();
+                          return
+                            Container(
+                                height: 200,
+                                alignment: Alignment.center,
+                                child: CircularProgressIndicator(color: Colors.deepPurple,)
+                            );
                         }
                         else if(snapshot.hasData) {
 
@@ -156,7 +160,7 @@ class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
                           List<FoodResponseModel> recipes = List<FoodResponseModel>.from(l.map((e) => FoodResponseModel.fromJson(e)));
 
                           return SizedBox(
-                            height: 750,
+                            height: 1000,
                             child:
 
                             SingleChildScrollView(
@@ -167,9 +171,15 @@ class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
                                   // SizedBox(height: 10.0,),
                                   // Text(snapshot.data!.first.name)
 
-                                  SizedBox(
-                                    height: 40,
-                                    child: Text(snapshot.data!.foodPreferences + snapshot.data!.country),
+                                  // SizedBox(
+                                  //   height: 40,
+                                  //   child: Text(snapshot.data!.foodPreferences + snapshot.data!.country),
+                                  // ),
+
+                                  Padding(
+                                      padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                                      child: Text("Recipes based on : ${snapshot.data!.foodPreferences + ", " + snapshot.data!.country}",
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)
                                   ),
 
                                   getRecipeWidgets(recipes)
@@ -183,19 +193,24 @@ class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
                         } else if (snapshot.hasError) {
                           return Text("${snapshot.error}");
                         }
-                        return const CircularProgressIndicator();
+                        return
+                          Container(
+                              height: 200,
+                              alignment: Alignment.center,
+                              child: CircularProgressIndicator(color: Colors.deepPurple,)
+                          );
                       },
                     ),
                   ),
 
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
-                    child: const Text('Back to recipes based on ingredients'),
-                    onPressed: (){
-
-                      Navigator.pushNamed(context, '/recipe_list', arguments: {'photos': data['photos'], 'email': data['email'], 'bmi': data['bmi'], 'username': data['username']});
-                    },
-                  ),//
+                  // ElevatedButton(
+                  //   style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
+                  //   child: const Text('Back to recipes based on ingredients'),
+                  //   onPressed: (){
+                  //
+                  //     Navigator.pushNamed(context, '/recipe_list', arguments: {'photos': data['photos'], 'email': data['email'], 'bmi': data['bmi'], 'username': data['username']});
+                  //   },
+                  // ),//
 
                 ]
             ),

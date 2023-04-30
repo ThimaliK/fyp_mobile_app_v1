@@ -68,8 +68,8 @@ class _HomeState extends State<Home> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('home'),
-        backgroundColor: Colors.deepPurple[700],
+        title: const Text('MyHealth'),
+        backgroundColor: Colors.deepPurple,
         centerTitle: true,
       ),
       body: 
@@ -87,7 +87,7 @@ class _HomeState extends State<Home> {
                 return  Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    const SizedBox(height: 10,),
+                    const SizedBox(height: 5,),
                     Text('Hi ${snapshot.data!.username}, Welcome Back!', style: TextStyle(fontSize: 18),
                       textAlign: TextAlign.center,),
                     const SizedBox(height: 10,),
@@ -149,7 +149,7 @@ class _HomeState extends State<Home> {
                                 IconButton(onPressed: () {
                                   Navigator.pushNamed(context, '/customised_recipe_list', arguments: {'email': snapshot.data!.email, 'username': snapshot.data!.username, 'bmi': snapshot.data!.bmi});
                                 },
-                                  icon: const Icon(Icons.heart_broken, color: Colors.black,),
+                                  icon: const Icon(Icons.favorite_rounded, color: Colors.black,),
                                   iconSize: 130,
                                 ),
                               ],
@@ -168,7 +168,7 @@ class _HomeState extends State<Home> {
                             IconButton(onPressed: () {
 
                             },
-                              icon: const Icon(Icons.directions_walk),
+                              icon: const Icon(Icons.fitness_center_rounded),
                               iconSize: 50,
                               alignment: Alignment.centerLeft,
                             ),

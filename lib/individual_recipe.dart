@@ -105,8 +105,8 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Recipe'),
-        backgroundColor: Colors.deepPurple[700],
+        title: const Text('MyHealth'),
+        backgroundColor: Colors.deepPurple,
         centerTitle: true,
       ),
       body: 
@@ -116,7 +116,7 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
           children: <Widget>[
 
             Padding(
-              padding: const EdgeInsets.all(15),
+              padding: const EdgeInsets.fromLTRB(15, 20, 15, 15),
                 child: Text(recipe.name, style: const TextStyle(fontSize: 20),)
             ),
 
