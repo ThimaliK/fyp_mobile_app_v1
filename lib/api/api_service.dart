@@ -96,7 +96,7 @@ class APIService {
 
     print('status code: ${response.statusCode}');
 
-    if(response.statusCode == 200 || response.statusCode == 409) {
+    if(response.statusCode == 200 || response.statusCode == 403) {
       print('status code: ${response.statusCode}');
       return SignupResponseModel.fromJson(json.decode(response.body));
     }
