@@ -6,6 +6,7 @@ import 'package:fyp_mobile_app_v1/models/user_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/signup_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class APIService {
 
@@ -32,12 +33,37 @@ class APIService {
 
     print('status code: ${response.statusCode}');
 
+    if(response.statusCode == 200) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs?.setBool("isLoggedIn", true);
+      prefs?.setString("username", LoginResponseModel.fromJson(json.decode(response.body)).username);
+      prefs?.setString("email", LoginResponseModel.fromJson(json.decode(response.body)).email);
+      prefs?.setString("bmi", LoginResponseModel.fromJson(json.decode(response.body)).bmi);
+    }
+
     if(response.statusCode == 200 || response.statusCode == 401) {
       print('status code: ${response.statusCode}');
       return LoginResponseModel.fromJson(json.decode(response.body));
     } else {
       throw Exception("failed to load data");
     }
+
+  }
+
+  Future<LoginResponseModel> loadLoginData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString('username');
+    String? email = prefs.getString('username');
+    String? bmi = prefs.getString('bmi');
+
+    return LoginResponseModel(username as String, bmi as String, email as String);
+  }
+
+  Future<void> logoutUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs?.clear();
+
+
 
   }
 

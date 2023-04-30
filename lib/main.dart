@@ -8,12 +8,14 @@ import 'package:fyp_mobile_app_v1/camera_input.dart';
 import 'package:fyp_mobile_app_v1/recipe_list.dart';
 import 'package:fyp_mobile_app_v1/sign_in.dart';
 import 'package:fyp_mobile_app_v1/sign_up.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+Future<void> main() async{
     runApp(MaterialApp(
       initialRoute: '/',
+      home: LandingPage(),
       routes: {
-        '/': (context) => const LandingPage(),
+        //'/': (context) => const LandingPage(),
         '/sign_up': (context) => const SignUp(),
         '/sign_in': (context) => const SignIn(),
         '/home': (context) => const Home(),
@@ -21,10 +23,32 @@ void main() {
         '/recipe_list': (context) => const RecipeList(),
         '/individual_recipe': (context) => const IndividualRecipe(),
         '/customised_recipe_list': (context) => const CustomisedRecipeList(),
+        '/landing': (context) => const LandingPage(),
       },
 //
 
     ));
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var status = prefs.getBool('isLoggedIn') ?? false;
+    print(status);
+    runApp(MaterialApp(
+      initialRoute: '/',
+      home: status == true ? Home() : LandingPage(),
+      routes: {
+        //'/': (context) => const LandingPage(),
+        '/sign_up': (context) => const SignUp(),
+        '/sign_in': (context) => const SignIn(),
+        '/home': (context) => const Home(),
+        '/camera_input': (context) => const CameraInput(),
+        '/recipe_list': (context) => const RecipeList(),
+        '/individual_recipe': (context) => const IndividualRecipe(),
+        '/customised_recipe_list': (context) => const CustomisedRecipeList(),
+        '/landing': (context) => const LandingPage(),
+      },
+
+    )
+    );
 
     HttpOverrides.global = MyHttpOverrides();
 }

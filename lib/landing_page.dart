@@ -19,7 +19,7 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(appBar: AppBar(
-      title: const Text('MyHealth'),
+      title: const Text('Landing'),
       centerTitle: true,
       backgroundColor: Colors.deepPurple,
     ),
