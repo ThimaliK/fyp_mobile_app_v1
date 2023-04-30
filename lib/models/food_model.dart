@@ -55,6 +55,29 @@ class FoodRecognitionResponseModel {
       : response = json['response'];
 }
 
+class GetRecipesResponseModel {
+  final List<dynamic> recipes;
+  final List<dynamic> ingredients;
+
+  GetRecipesResponseModel(this.recipes, this.ingredients);
+
+  GetRecipesResponseModel.fromJson(Map<String, dynamic> json)
+      : recipes = json['recipes'], ingredients = json['ingredients'];
+
+}
+
+class GetCustomisedRecipesResponseModel {
+  final List<dynamic> recipes;
+  final String country;
+  final String foodPreferences;
+
+  GetCustomisedRecipesResponseModel(this.recipes, this.country, this.foodPreferences);
+
+  GetCustomisedRecipesResponseModel.fromJson(Map<String, dynamic> json)
+      : recipes = json['recipes'], country = json['country'], foodPreferences = json['food_preferences'];
+
+}
+
 // class FoodRequestModel {
 //   String email;
 //   String password;

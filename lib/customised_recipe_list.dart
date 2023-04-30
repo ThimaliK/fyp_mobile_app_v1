@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:fyp_mobile_app_v1/api/api_service.dart';
 import 'package:fyp_mobile_app_v1/models/food_model.dart';
@@ -16,6 +18,8 @@ class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
   APIService apiService = APIService();
 
   //late List<FoodResponseModel> recipes;
+
+  late Future <GetCustomisedRecipesResponseModel> _response;
 
   @override
   void initState() {
@@ -110,6 +114,11 @@ class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
       } else {
         data = ModalRoute.of(context)?.settings.arguments as Map;
       }
+      print("DATAAAAA:    "+data.toString());
+      // _recipes = data["recipe_data"];
+
+      _response = apiService.getCustomisedRecipes(data['photos'], data['email']);
+
 
     });
 
@@ -128,25 +137,41 @@ class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
                 children: [
 
                   SingleChildScrollView(
-                    child: FutureBuilder<List<FoodResponseModel>> (
-                      future: apiService.getBestMatchedCustomisedRecipes(),
+                    child: FutureBuilder<GetCustomisedRecipesResponseModel> (
+                      future: _response,
                       builder: (context, snapshot) {
                         if(snapshot.data==null) {
                           return const CircularProgressIndicator();
                         }
                         else if(snapshot.hasData) {
+
+                          var x = jsonEncode(snapshot.data!.recipes);
+
+                          Iterable l = json.decode(x.toString());
+
+                          List<FoodResponseModel> recipes = List<FoodResponseModel>.from(l.map((e) => FoodResponseModel.fromJson(e)));
+
                           return SizedBox(
                             height: 750,
-                            child: Column(
+                            child:
 
-                              children: [
-                                // Text(snapshot.data!.first.ingredients),
-                                // SizedBox(height: 10.0,),
-                                // Text(snapshot.data!.first.name)
+                            SingleChildScrollView(
+                              child: Column(
 
-                                getRecipeWidgets(snapshot.data!)
+                                children: [
+                                  // Text(snapshot.data!.first.ingredients),
+                                  // SizedBox(height: 10.0,),
+                                  // Text(snapshot.data!.first.name)
 
-                              ],
+                                  SizedBox(
+                                    height: 40,
+                                    child: Text(snapshot.data!.foodPreferences),
+                                  ),
+
+                                  getRecipeWidgets(recipes)
+
+                                ],
+                              ),
                             ),
                           );
                         } else if (snapshot.hasError) {

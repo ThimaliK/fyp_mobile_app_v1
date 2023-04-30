@@ -80,7 +80,7 @@ class APIService {
 
   }
 
-  Future<List<FoodResponseModel>> foodRecognition(List<File> images) async{
+  Future<GetRecipesResponseModel> foodRecognition(List<File> images) async{
 
       // //String url = 'http://10.0.2.2:5000/recognise_ingredients';
       //
@@ -201,11 +201,24 @@ class APIService {
 
           //return recipes;
 
-          Iterable l = json.decode(x.toString());
+          //GetRecipesResponseModel getRecipesResponseModel = json.decode(x.toString());
 
-          List<FoodResponseModel> recipes = List<FoodResponseModel>.from(l.map((e) => FoodResponseModel.fromJson(e)));
+          //Iterable l = json.decode(x.toString());
 
-          return recipes;
+         //  GetRecipesResponseModel getRecipesResponseModel =
+         // GetRecipesResponseModel.from(x.toString().map((e) => GetRecipesResponseModel.fromJson(e)));
+
+          print("n1");
+
+          var res = GetRecipesResponseModel.fromJson(json.decode(x.toString()));
+
+          print("n2");
+
+          return res;
+
+
+
+          //return getRecipesResponseModel;
 
         } else {
           //apiResponse.onError('Failed to load post');
@@ -224,6 +237,129 @@ class APIService {
 
 
     }
+
+
+
+  Future<GetCustomisedRecipesResponseModel> getCustomisedRecipes(List<File> images, String email) async{
+
+    // //String url = 'http://10.0.2.2:5000/recognise_ingredients';
+    //
+    String url = "http://fyp-trial-2-env.eba-cwcfw5nz.eu-west-2.elasticbeanstalk.com/get_customised_recipes_list";
+
+
+    if(images.isNotEmpty && email.isNotEmpty) {
+
+      print("A------------------------------------");
+
+      Dio dio = new Dio(); // with default Options
+
+      // Set default configs
+      dio.options.baseUrl = baseUrl;
+      dio.options.connectTimeout = Duration(seconds: 20); //5s
+      dio.options.receiveTimeout = Duration(seconds: 20);
+
+
+
+      print("B------------------------------------");
+
+
+      var formData = FormData();
+      for (var file in images) {
+        formData.files.addAll([
+          MapEntry("files[]", await MultipartFile.fromFile(file.path)),
+        ]);
+
+        print("file size${file.lengthSync()}");
+      }
+
+      formData.fields.add(MapEntry("email", email));
+
+      print("C------------------------------------");
+
+      var response = await dio.post(url, data: formData);
+
+      print("D------------------------------------");
+
+      if (response.statusCode == 200) {
+        //apiResponse.onSuccess(response.toString(), eventType);
+
+        print("E------------------------------------");
+
+        print("Image Uploaded");
+
+        var x = jsonEncode(response.data);
+
+        print(x.toString());
+
+        //List<FoodResponseModel> recipes = jsonDecode(x.toString());
+
+        //print(jsonDecode(response.data));
+
+        // return (response.data as List)
+        //     .map((x) => FoodResponseModel.fromJson(x))
+        //     .toList();
+
+        // Iterable l = json.decode(response.data.toString());
+        //
+        // print('LENGTH: ${l.length}');
+        //
+        //
+        // List<FoodResponseModel> recipes =
+        // List<FoodResponseModel>.from(l.map((e) => FoodResponseModel.fromJson(e)));
+
+        // return (response.data as List)
+        //     .map((x) => FoodResponseModel.fromJson(x))
+        //     .toList();
+
+        //return recipes;
+
+        print("AAA");
+
+        //print(data.first["name"]);
+        //Iterable l = jsonDecode(response.data);
+
+        print("BBB");
+
+        //List<FoodResponseModel> recipes = List<FoodResponseModel>.from(response.data.map((e) => FoodResponseModel.fromJson(e)));
+
+        //return recipes;
+
+        //GetRecipesResponseModel getRecipesResponseModel = json.decode(x.toString());
+
+        //Iterable l = json.decode(x.toString());
+
+        //  GetRecipesResponseModel getRecipesResponseModel =
+        // GetRecipesResponseModel.from(x.toString().map((e) => GetRecipesResponseModel.fromJson(e)));
+
+        print("n1");
+
+        var res = GetCustomisedRecipesResponseModel.fromJson(json.decode(x.toString()));
+
+        print("n2");
+
+        return res;
+
+
+
+        //return getRecipesResponseModel;
+
+      } else {
+        //apiResponse.onError('Failed to load post');
+
+        print(response.data.toString());
+
+        print("Upload Failed");
+
+        throw Exception("failed");
+
+      }
+
+    } else {
+      throw Exception("no images uploaded");
+    }
+
+
+  }
 
 
 

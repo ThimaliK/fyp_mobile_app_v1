@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:fyp_mobile_app_v1/api/api_service.dart';
 import 'package:fyp_mobile_app_v1/models/food_model.dart';
@@ -18,6 +20,8 @@ class _RecipeListState extends State<RecipeList> {
   //late List<FoodResponseModel> recipes;
 
   late Future <List<FoodResponseModel>> _recipes;
+
+  late Future <GetRecipesResponseModel> _response;
 
 
 
@@ -116,7 +120,9 @@ class _RecipeListState extends State<RecipeList> {
       print("DATAAAAA:    "+data.toString());
       // _recipes = data["recipe_data"];
 
-      _recipes = apiService.foodRecognition(data['photos']);
+       _response = apiService.foodRecognition(data['photos']);
+
+
     });
 //
 
@@ -137,27 +143,43 @@ class _RecipeListState extends State<RecipeList> {
                 children: [
 
                   SingleChildScrollView(
-                    child: FutureBuilder<List<FoodResponseModel>> (
-                      future: _recipes,
-                      initialData: [],
+                    child: FutureBuilder<GetRecipesResponseModel> (
+                      future: _response,
+                      //initialData: [],
                       builder: (context, snapshot) {
 
                         // if(snapshot.data==null) {
                         //   return const CircularProgressIndicator(color: Colors.deepPurple,);
                         // }
                         if(snapshot.hasData) {
+
+                          var x = jsonEncode(snapshot.data!.recipes);
+
+                          Iterable l = json.decode(x.toString());
+
+                          List<FoodResponseModel> recipes = List<FoodResponseModel>.from(l.map((e) => FoodResponseModel.fromJson(e)));
+
                           return SizedBox(
                             height: 750,
-                            child: Column(
+                            child:
 
-                              children: [
-                                // Text(snapshot.data!.first.ingredients),
-                                // SizedBox(height: 10.0,),
-                                // Text(snapshot.data!.first.name)
+                            SingleChildScrollView(
+                              child: Column(
 
-                                getRecipeWidgets(snapshot.data!)
+                                children: [
+                                  // Text(snapshot.data!.first.ingredients),
+                                  // SizedBox(height: 10.0,),
+                                  // Text(snapshot.data!.first.name)
 
-                              ],
+                                  SizedBox(
+                                    child: Text(snapshot.data!.ingredients.first.toString()),
+                                    height: 40,
+                                  ),
+
+                                  getRecipeWidgets(recipes)
+
+                                ],
+                              ),
                             ),
                           );
                         } else if (snapshot.hasError) {
@@ -173,15 +195,17 @@ class _RecipeListState extends State<RecipeList> {
                     child: const Text('Find Customised Recipes'),
                     onPressed: (){
 
-                      APIService apiService = APIService();  //
+                      Navigator.pushNamed(context, '/customised_recipe_list',
+                          arguments: {'photos': data['photos'], 'email': data['email'], 'username': data['username'], 'bmi': data['bmi']});
 
-                      apiService.customisedRecipes(data['photos'], data['email']).then((value) => {
-                        if(value.isNotEmpty && value=="5_cutomised_recipes_extracted") {
+                      //APIService apiService = APIService();  //
 
-                          Navigator.pushNamed(context, '/customised_recipe_list',
-                              arguments: {'photos': data['photos'], 'email': data['email'], 'username': data['username'], 'bmi': data['bmi']})
-                        }
-                      });
+                      // apiService.customisedRecipes(data['photos'], data['email']).then((value) => {
+                      //   if(value.isNotEmpty && value=="5_cutomised_recipes_extracted") {
+                      //
+                      //
+                      //   }
+                      // });
 
                     },
                   ),
