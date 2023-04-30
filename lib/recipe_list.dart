@@ -172,33 +172,33 @@ class _RecipeListState extends State<RecipeList> {
                                   // Text(snapshot.data!.first.name)
 
                                   SizedBox(
-                                    child: Text(snapshot.data!.ingredients.first.toString()),
                                     height: 40,
+                                    child: Text(snapshot.data!.ingredients.first.toString()),
                                   ),
 
                                   getRecipeWidgets(recipes),
 
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
-                                    child: const Text('Find Customised Recipes'),
-                                    onPressed: (){
-
-                                      Navigator.pushNamed(context, '/customised_recipe_list',
-                                          arguments: {'photos': data['photos'], 'email': data['email'], 'username': data['username'], 'bmi': data['bmi']});
-
-                                      //APIService apiService = APIService();  //
-
-                                      // apiService.customisedRecipes(data['photos'], data['email']).then((value) => {
-                                      //   if(value.isNotEmpty && value=="5_cutomised_recipes_extracted") {
-                                      //
-                                      //
-                                      //   }
-                                      // });
-
-                                      //
-
-                                    },
-                                  ),
+                                  // ElevatedButton(
+                                  //   style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
+                                  //   child: const Text('Find Customised Recipes'),
+                                  //   onPressed: (){
+                                  //
+                                  //     Navigator.pushNamed(context, '/customised_recipe_list',
+                                  //         arguments: {'photos': data['photos'], 'email': data['email'], 'username': data['username'], 'bmi': data['bmi']});
+                                  //
+                                  //     //APIService apiService = APIService();  //
+                                  //
+                                  //     // apiService.customisedRecipes(data['photos'], data['email']).then((value) => {
+                                  //     //   if(value.isNotEmpty && value=="5_cutomised_recipes_extracted") {
+                                  //     //
+                                  //     //
+                                  //     //   }
+                                  //     // });
+                                  //
+                                  //     //
+                                  //
+                                  //   },
+                                  // ),
 
                                 ],
                               ),

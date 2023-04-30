@@ -91,25 +91,31 @@ class _HomeState extends State<Home> {
                     Text('Hi ${snapshot.data!.username}, Welcome Back!', style: TextStyle(fontSize: 18),
                       textAlign: TextAlign.center,),
                     const SizedBox(height: 10,),
+
                     GestureDetector(
                       child:
                       SizedBox(
-                        height: 280,
-                        child: Card(
+                        height: 200,
+                        child:
+
+                        Card(
                             color: Colors.purple[100],
-                            child: Column(
+                            child:
+                            Column(
                               children: [
                                 const SizedBox(height: 10,),
                                 const Expanded(
+
                                   child: ListTile(
-                                    title: Text("Take photos of ingredients to find Healthy Recipes!", textAlign: TextAlign.center,),
+                                    title: Text(
+                                      "Take photos of ingredients to find Healthy Recipes!", textAlign: TextAlign.center,),
                                   ),
                                 ),
                                 IconButton(onPressed: () {
                                   Navigator.pushNamed(context, '/camera_input', arguments: {'email': snapshot.data!.email, 'username': snapshot.data!.username, 'bmi': snapshot.data!.bmi});
                                 },
                                   icon: const Icon(Icons.camera_alt_rounded, color: Colors.black,),
-                                  iconSize: 200,
+                                  iconSize: 130,
                                 ),
                               ],
                             )
@@ -118,6 +124,42 @@ class _HomeState extends State<Home> {
                       ),
                       onTap: () => Navigator.pushNamed(context, '/camera_input', arguments: {'email': snapshot.data!.email, 'username': snapshot.data!.username, 'bmi': snapshot.data!.bmi}),
                     ),
+
+                    const SizedBox(height: 10,),
+
+                    GestureDetector(
+                      child:
+                      SizedBox(
+                        height: 200,
+                        child:
+
+                        Card(
+                            color: Colors.green[100],
+                            child:
+                            Column(
+                              children: [
+                                const SizedBox(height: 10,),
+                                const Expanded(
+
+                                  child: ListTile(
+                                    title: Text(
+                                      "Find Recipes based on your Food Preferences!", textAlign: TextAlign.center,),
+                                  ),
+                                ),
+                                IconButton(onPressed: () {
+                                  Navigator.pushNamed(context, '/customised_recipe_list', arguments: {'email': snapshot.data!.email, 'username': snapshot.data!.username, 'bmi': snapshot.data!.bmi});
+                                },
+                                  icon: const Icon(Icons.heart_broken, color: Colors.black,),
+                                  iconSize: 130,
+                                ),
+                              ],
+                            )
+
+                        ),
+                      ),
+                      onTap: () => Navigator.pushNamed(context, '/customised_recipe_list', arguments: {'email': snapshot.data!.email, 'username': snapshot.data!.username, 'bmi': snapshot.data!.bmi}),
+                    ),
+
                     const SizedBox(height: 10,),
                     Card(
                         color: Colors.blue[100],
@@ -127,7 +169,7 @@ class _HomeState extends State<Home> {
 
                             },
                               icon: const Icon(Icons.directions_walk),
-                              iconSize: 100,
+                              iconSize: 50,
                               alignment: Alignment.centerLeft,
                             ),
                             Flexible(

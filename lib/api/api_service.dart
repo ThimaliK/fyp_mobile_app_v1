@@ -266,14 +266,14 @@ class APIService {
 
 
 
-  Future<GetCustomisedRecipesResponseModel> getCustomisedRecipes(List<File> images, String email) async{
+  Future<GetCustomisedRecipesResponseModel> getCustomisedRecipes(String email) async{
 
-    String url = 'http://10.0.2.2:5000/get_customised_recipes_list';
+    String url = '$baseUrl/get_customised_recipes_list';
     //
     //String url = "http://fyp-trial-2-env.eba-cwcfw5nz.eu-west-2.elasticbeanstalk.com/get_customised_recipes_list";
 
 
-    if(images.isNotEmpty && email.isNotEmpty) {
+    //if(images.isNotEmpty && email.isNotEmpty) {
 
       print("A------------------------------------");
 
@@ -290,13 +290,13 @@ class APIService {
 
 
       var formData = FormData();
-      for (var file in images) {
-        formData.files.addAll([
-          MapEntry("files[]", await MultipartFile.fromFile(file.path)),
-        ]);
-
-        print("file size${file.lengthSync()}");
-      }
+      // for (var file in images) {
+      //   formData.files.addAll([
+      //     MapEntry("files[]", await MultipartFile.fromFile(file.path)),
+      //   ]);
+      //
+      //   print("file size${file.lengthSync()}");
+      // }
 
       formData.fields.add(MapEntry("email", email));
 
@@ -380,9 +380,9 @@ class APIService {
 
       }
 
-    } else {
-      throw Exception("no images uploaded");
-    }
+    // } else {
+    //   throw Exception("no images uploaded");
+    // }
 
 
   }

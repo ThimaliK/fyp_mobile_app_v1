@@ -121,7 +121,7 @@ class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
 
       //
 
-      _response = apiService.getCustomisedRecipes(data['photos'], data['email']);
+      _response = apiService.getCustomisedRecipes(data['email']);
 
 
     });
@@ -169,10 +169,12 @@ class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
 
                                   SizedBox(
                                     height: 40,
-                                    child: Text(snapshot.data!.foodPreferences),
+                                    child: Text(snapshot.data!.foodPreferences + snapshot.data!.country),
                                   ),
 
                                   getRecipeWidgets(recipes)
+
+                                  //
 
                                 ],
                               ),
