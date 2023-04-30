@@ -6,7 +6,7 @@ import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 import 'dart:core';
 import 'package:email_validator/email_validator.dart';
 
-
+//
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -227,7 +227,8 @@ class _SignUpState extends State<SignUp> {
                           onSelect: (Country country) {
                             print('Select country: ${country.displayName}');
                             setState(() {
-                              selectedCountry = country.displayName.split(" ").first.toString();
+                              selectedCountry = country.displayName.split("(").first.toString().trim();
+
                             });
 
                           },
@@ -258,7 +259,7 @@ class _SignUpState extends State<SignUp> {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white, maximumSize: const Size.fromHeight(50),
+                          backgroundColor: Colors.white, minimumSize: Size(500, 50),
                           side: const BorderSide(
                           width: 1, // the thickness
                           color: Colors.black54 // the color of the border
@@ -268,9 +269,14 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
 
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                      child: Text("Please select your food preferences:", style: TextStyle(fontWeight: FontWeight.bold),)
+                  ),
+
 
                   Padding(
-                    padding: const EdgeInsets.all(15),
+                    padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                     child: ChipsChoice<String>.multiple(
                       value: tags,
                       onChanged: (val) => setState(()=> tags = val),
@@ -283,78 +289,81 @@ class _SignUpState extends State<SignUp> {
 
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(15),
+                    padding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
                     child: Text(validationMessage, style: const TextStyle(color: Colors.red),)
                   ),
-                  ElevatedButton(
-                    onPressed: (){
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(15, 0, 15, 15),
+                    child: ElevatedButton(
+                      onPressed: (){
 
-                      final bool isValidEmail = EmailValidator.validate(emailController.text.trim());
+                        final bool isValidEmail = EmailValidator.validate(emailController.text.trim());
 
-                      if(isValidEmail==false) {
-                        setState(() {
-                          validationMessage = "Invalid email address";
-                        });
-                      } else if(usernameController.text.trim()=="" ||
-                                emailController.text.trim()=="" ||
-                                passwordController.text.trim()=="" ||
-                          confirmPasswordController.text.trim()=="") {
-                        setState(() {
-                          validationMessage = "Some required fields are empty";
-                        });
+                        if(isValidEmail==false) {
+                          setState(() {
+                            validationMessage = "Invalid email address";
+                          });
+                        } else if(usernameController.text.trim()=="" ||
+                                  emailController.text.trim()=="" ||
+                                  passwordController.text.trim()=="" ||
+                            confirmPasswordController.text.trim()=="") {
+                          setState(() {
+                            validationMessage = "Some required fields are empty";
+                          });
 
-                      } else if(passwordController.text.trim().length<6) {
-                        setState(() {
-                          validationMessage = "The password must contain at least 6 characters";
-                        });
-                      }
-                      else if(passwordController.text.trim() != confirmPasswordController.text.trim()) {
-                        setState(() {
-                          validationMessage = "Password and password confirmation do not match";
-                        });
-                      }
+                        } else if(passwordController.text.trim().length<6) {
+                          setState(() {
+                            validationMessage = "The password must contain at least 6 characters";
+                          });
+                        }
+                        else if(passwordController.text.trim() != confirmPasswordController.text.trim()) {
+                          setState(() {
+                            validationMessage = "Password and password confirmation do not match";
+                          });
+                        }
 
-                      else {
+                        else {
 
-                        requestModel.username = usernameController.text;
-                        requestModel.email = emailController.text;
-                        requestModel.password = passwordController.text;
-                        requestModel.country = selectedCountry;
-                        requestModel.birthDate = "12/12/2000";
-                        requestModel.foodPreferences = tags.toString();
-                        requestModel.weight = weightController.text;
-                        requestModel.height = heightController.text;
-                        requestModel.fitbitUserID = fitbitIdController.text;
+                          requestModel.username = usernameController.text;
+                          requestModel.email = emailController.text;
+                          requestModel.password = passwordController.text;
+                          requestModel.country = selectedCountry;
+                          requestModel.birthDate = "12/12/2000";
+                          requestModel.foodPreferences = tags.toString();
+                          requestModel.weight = weightController.text;
+                          requestModel.height = heightController.text;
+                          requestModel.fitbitUserID = fitbitIdController.text;
 
-                        setState(() {
+                          setState(() {
 
-                        });
+                          });
 
-                        print(requestModel.toJson());
+                          print(requestModel.toJson());
 
-                        APIService apiService = APIService();
+                          APIService apiService = APIService();
 
-                        print('api service created');
+                          print('api service created');
 
-                        print("THE TAGS ---------${tags.toString()}");
+                          print("THE TAGS ---------${tags.toString()}");
 
-                        apiService.register(requestModel).then((value) => {
-                          if(value.response.isNotEmpty) {
-                            if(value.response == "registration successful") {
-                              Navigator.pushNamed(context, '/')
-                            } else {
-                              setState(() {
-                                validationMessage = value.response.toString();
-                              })
+                          apiService.register(requestModel).then((value) => {
+                            if(value.response.isNotEmpty) {
+                              if(value.response == "registration successful") {
+                                Navigator.pushNamed(context, '/')
+                              } else {
+                                setState(() {
+                                  validationMessage = value.response.toString();
+                                })
+                              }
                             }
-                          }
-                        });
+                          });
 
-                      }
+                        }
 
-                    },
-                    style: ElevatedButton.styleFrom(primary: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
-                    child: const Text('Create Account')
+                      },
+                      style: ElevatedButton.styleFrom(primary: Colors.deepPurple, minimumSize: Size(500, 40)),
+                      child: const Text('Create Account')
+                    ),
                   ),
 
                 ],

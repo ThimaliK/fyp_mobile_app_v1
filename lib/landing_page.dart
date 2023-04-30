@@ -19,52 +19,77 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(appBar: AppBar(
-      title: const Text('Landing'),
+      title: const Text('MyHealth'),
       centerTitle: true,
       backgroundColor: Colors.deepPurple,
     ),
-        body: Padding(
-            padding: const EdgeInsets.all(15),
-            child: Column(
-              children: <Widget>[
+        body:
 
-                const SizedBox(
-                  height: 30,
-                ),
+        // Padding(
+        //     padding: const EdgeInsets.all(15),
+        //     child:
 
-                Container(
-                  color: Colors.white,
-                  child: Image.asset(
-                    'assets/landing_page_image.jpg',
-                  )
-                ),
+    // Padding(
+    //   padding: const EdgeInsets.all(20),
+      // child: SingleChildScrollView(
+         //child:
 
-                const SizedBox(
-                  height: 30,
-                ),
+        Column(
+                  children: <Widget>[
 
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
-                  child: const Text('Create Account'),
-                  onPressed: (){
-                    Navigator.pushNamed(context, '/sign_up');
-                  },
-                ),
+                    const SizedBox(
+                      height: 30,
+                    ),
 
-                const SizedBox(
-                  height: 30,
-                ),
+                    Container(
+                      color: Colors.white,
+                      child: Image.asset(
+                        'assets/landing_page_image.jpg',
+                      )
+                    ),
 
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
-                  child: const Text('Log In'),
-                  onPressed: (){
-                    Navigator.pushNamed(context, '/sign_in');
-                  },
+                    const SizedBox(
+                      height: 10,
+                    ),
+
+                    Padding(
+                      padding: EdgeInsets.all(20),
+                      child:
+
+                      // Container(
+                      //   child:
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, minimumSize: Size(500, 40),),
+                          child: const Text('Create Account'),
+                          onPressed: (){
+                            Navigator.pushNamed(context, '/sign_up');
+                          },
+                        ),
+
+                      ),
+
+                    //),
+
+                    // const SizedBo//   height: 10,
+                    // ),
+
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+
+                      child: ElevatedButton(
+
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, minimumSize: Size(500, 40)),
+                        child: const Text('Login'),
+                        onPressed: (){
+                          Navigator.pushNamed(context, '/sign_in');
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            )
-        )
+      //),
+    //)
+        //)
     );
 
 

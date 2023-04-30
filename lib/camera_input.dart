@@ -83,7 +83,7 @@ class _CameraInputState extends State<CameraInput> {
 
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.black54, width: 2,),
-                borderRadius: const BorderRadius.all(Radius.circular(5)),
+                //borderRadius: const BorderRadius.all(Radius.circular(5)),
               ),
 
               child: Column(
@@ -150,20 +150,23 @@ class _CameraInputState extends State<CameraInput> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ElevatedButton(
-                          onPressed: () {
-                            getImagesFromGallery();
-                          },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white70, maximumSize: const Size.fromHeight(50),
-                              side: const BorderSide(
-                                  width: 1, // the thickness
-                                  color: Colors.black // the color of the border
-                              )
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                        child: ElevatedButton(
+                            onPressed: () {
+                              getImagesFromGallery();
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white70, minimumSize: Size(172, 40),
+                                side: const BorderSide(
+                                    width: 1, // the thickness
+                                    color: Colors.black // the color of the border
+                                )
 
-                          ),
+                            ),
 
-                              child: const Text('Gallery', style: TextStyle(color: Colors.black),)
+                                child: const Text('Gallery', style: TextStyle(color: Colors.black),)
+                        ),
                       ),
                       //SizedBox(height: 10.0,),
                       const SizedBox(width: 20,),
@@ -173,7 +176,7 @@ class _CameraInputState extends State<CameraInput> {
                         },
 
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white70, maximumSize: const Size.fromHeight(50),
+                            backgroundColor: Colors.white70, minimumSize: Size(172, 40),
                           shadowColor: Colors.black,
                             side: const BorderSide(
                                 width: 1, // the thickness
@@ -189,45 +192,48 @@ class _CameraInputState extends State<CameraInput> {
 
                   const SizedBox(height: 15,),
 
-                  ElevatedButton(
-                      onPressed: () {
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    child: ElevatedButton(
+                        onPressed: () {
 
-                        if(_images.isNotEmpty) {
+                          if(_images.isNotEmpty) {
 
-                          setState(() {
+                            setState(() {
 
-                          });
+                            });
 
-                          Navigator.pushNamed(context, '/recipe_list',
-                              arguments: {'photos': _images, 'email': routeData['email'], 'username': routeData['username'], 'bmi': routeData['bmi']});
+                            Navigator.pushNamed(context, '/recipe_list',
+                                arguments: {'photos': _images, 'email': routeData['email'], 'username': routeData['username'], 'bmi': routeData['bmi']});
 
-                          // APIService apiService = APIService();
-                          //
-                          // //print('api service created');
-                          //
-                          // apiService.foodRecognition(_images).then((value) => {
-                          //   if(value.isNotEmpty) {
-                          //
-                          //     print("IMAGES LIST LENGTH------------------${_images.length}"),
-                          //
-                          //     print("recipe one - title ${value.first.name}"),
-                          //
-                          //     print("imagesssss${_images.toString()}"),
-                          //
-                          //     Navigator.pushNamed(context, '/recipe_list',
-                          //         arguments: {'photos': _images, 'email': routeData['email'], 'username': routeData['username'], 'bmi': routeData['bmi'], 'recipe_data': value})
-                          //   }
-                          // });
+                            // APIService apiService = APIService();
+                            //
+                            // //print('api service created');
+                            //
+                            // apiService.foodRecognition(_images).then((value) => {
+                            //   if(value.isNotEmpty) {
+                            //
+                            //     print("IMAGES LIST LENGTH------------------${_images.length}"),
+                            //
+                            //     print("recipe one - title ${value.first.name}"),
+                            //
+                            //     print("imagesssss${_images.toString()}"),
+                            //
+                            //     Navigator.pushNamed(context, '/recipe_list',
+                            //         arguments: {'photos': _images, 'email': routeData['email'], 'username': routeData['username'], 'bmi': routeData['bmi'], 'recipe_data': value})
+                            //   }
+                            // });
 
-                          //print('foodRecognitionStatus - $foodRecognitionStatus');
+                            //print('foodRecognitionStatus - $foodRecognitionStatus');
 
-                        }
+                          }
 
 
-                      },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
-                      child: const Text('Find Recipes')
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.deepPurple, minimumSize: Size(500, 40)),
+                        child: const Text('Find Recipes')
+                    ),
                   ),
                 ],
               ),

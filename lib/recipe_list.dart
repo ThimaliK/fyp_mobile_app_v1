@@ -60,30 +60,31 @@ class _RecipeListState extends State<RecipeList> {
               padding: const EdgeInsets.all(7),
               child: Card(
                 color: Colors.white70,
-                margin: const EdgeInsets.all(5),
+                //margin: const EdgeInsets.all(5),
                 child: SizedBox(
-                  height: 100,
+                  height: 110,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       //
                       Flexible(
+
                         child: ListTile(
+
                           title: Text(recipes[i].name),
                         ),
                       ),
-                      // Flexible(child: Text("Ingredients"),),
-                      // getTextWidgets(ingredientList),
+
 
                       //
 
                       Padding(
-                        padding: EdgeInsets.fromLTRB(0, 0, 30, 25),
+                        padding: EdgeInsets.fromLTRB(0, 0, 30, 20),
                         child: Container(
                           alignment: Alignment.centerRight,
-                          height: 60,
-                            width: 60,
+                          height: 70,
+                            width: 70,
                             color: Colors.white,
                             child: Image.network(recipes[i].imageUrl),
                         ),
@@ -102,7 +103,7 @@ class _RecipeListState extends State<RecipeList> {
       ));
     }
     return SizedBox(
-      height: 750,
+      height: 1200,
       child: Column(children: list),
     );
   }
@@ -159,6 +160,9 @@ class _RecipeListState extends State<RecipeList> {
 
                           List<FoodResponseModel> recipes = List<FoodResponseModel>.from(l.map((e) => FoodResponseModel.fromJson(e)));
 
+                          var recognisedIngredients = snapshot.data!.ingredients.toString().replaceAll("[", "");
+                          recognisedIngredients = recognisedIngredients.replaceAll("]", "");
+
                           return SizedBox(
                             height: 1000,
                             child:
@@ -171,10 +175,13 @@ class _RecipeListState extends State<RecipeList> {
                                   // SizedBox(height: 10.0,),
                                   // Text(snapshot.data!.first.name)
 
-                                  SizedBox(
-                                    height: 40,
-                                    child: Text(snapshot.data!.ingredients.first.toString()),
+
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                                      child: Text("Recognised Ingredients: $recognisedIngredients",
+                                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)
                                   ),
+
 
                                   getRecipeWidgets(recipes),
 

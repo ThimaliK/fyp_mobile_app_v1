@@ -13,6 +13,48 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
 
   Map data = {};
 
+  Widget getMethodSteps(List<String> methodStepsList)
+  {
+
+    try {
+      List titlesAndSteps = [];
+
+      for (var j = 0; j < methodStepsList.length; j++) {
+        var titleAndStep = methodStepsList[j].split("*");
+
+        titlesAndSteps.add(titleAndStep);
+      }
+
+
+      List<Widget> list = <Widget>[];
+
+      for (var i = 0; i < titlesAndSteps.length; i++) {
+        list.add(
+
+            Padding(
+                padding: EdgeInsets.fromLTRB(0, 15, 0, 5),
+                child: Text(titlesAndSteps[i][0].trim())
+            )
+
+        );
+
+        list.add(Text(titlesAndSteps[i][1].trim()));
+      }
+
+
+      return
+
+        Container(
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: list),
+        );
+    } catch (e){
+      return getTextWidgets(methodStepsList);
+    }
+
+  }
+
   Widget getTextWidgets(List<String> data)
   {
     List<Widget> list = <Widget>[];
@@ -59,6 +101,8 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
     final nutritionInfoList = recipe.nutritionInfo.split(",");
 
 
+
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Recipe'),
@@ -85,7 +129,7 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
             Container(
               alignment: Alignment.centerLeft,
               child: Padding(
-                  padding: const EdgeInsets.all(15),
+                  padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
                   child: getTextWidgets(ingredientList)
               ),
             ),
@@ -94,7 +138,7 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
               alignment: Alignment.centerLeft,
               child: Padding(
                   padding: const EdgeInsets.all(15),
-                  child: getTextWidgets(methodSteps)
+                  child: getMethodSteps(methodSteps)
               ),
             ),
 

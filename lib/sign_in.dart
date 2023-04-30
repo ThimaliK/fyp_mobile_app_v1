@@ -105,42 +105,46 @@ class _SignInState extends State<SignIn> {
                     child: Text(message, style: const TextStyle(color: Colors.red),)
 
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
-                    onPressed: (){
-                      String email = emailController.text;
-                      String password = passwordController.text;
 
-                      setState(() {
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, minimumSize: Size(500, 40)),
+                      onPressed: (){
+                        String email = emailController.text;
+                        String password = passwordController.text;
 
-                      });
+                        setState(() {
 
-                      requestModel.email = email;
-                      requestModel.password = password;
+                        });
 
-                      setState(() {
+                        requestModel.email = email;
+                        requestModel.password = password;
 
-                      });
-                      print(requestModel.toJson());
+                        setState(() {
 
-                      APIService apiService = APIService();
-                      print('api service created');
+                        });
+                        print(requestModel.toJson());
 
-                      apiService.login(requestModel).then((value) => {
-                        if(value.username.isNotEmpty) {
-                          // if(value.response == "logged in") {
-                            Navigator.pushNamed(context, '/home',
-                                arguments: {'username': value.username, 'bmi': value.bmi, 'email': value.email})
-                          // } else {
-                          //   print("wrong${value.response}"),
-                          //   setState(() {
-                          //     message = value.response;
-                          //   })
-                          // }
-                        }
-                      });
-                    },
-                    child: const Text('Log In'),
+                        APIService apiService = APIService();
+                        print('api service created');
+
+                        apiService.login(requestModel).then((value) => {
+                          if(value.username.isNotEmpty) {
+                            // if(value.response == "logged in") {
+                              Navigator.pushNamed(context, '/home',
+                                  arguments: {'username': value.username, 'bmi': value.bmi, 'email': value.email})
+                            // } else {
+                            //   print("wrong${value.response}"),
+                            //   setState(() {
+                            //     message = value.response;
+                            //   })
+                            // }
+                          }
+                        });
+                      },
+                      child: const Text('Log In'),
+                    ),
                   )
                 ],
               ),
