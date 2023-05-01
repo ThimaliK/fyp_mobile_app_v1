@@ -32,7 +32,7 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
         list.add(
 
             Padding(
-                padding: EdgeInsets.fromLTRB(0, 15, 0, 5),
+                padding: const EdgeInsets.fromLTRB(0, 15, 0, 5),
                 child: Text(titlesAndSteps[i][0].trim())
             )
 
@@ -40,7 +40,6 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
 
         list.add(Text(titlesAndSteps[i][1].trim()));
       }
-
 
       return
 
@@ -85,22 +84,16 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
         data = data;
       } else {
 
-        print('getting route data---------------------');
         data = ModalRoute.of(context)?.settings.arguments as Map;
       }
 
     });
-
-
-    print(data);
 
     FoodResponseModel recipe = data['data'];
 
     final ingredientList = recipe.ingredients.split(',');
     final methodSteps = recipe.method.split("--");
     final nutritionInfoList = recipe.nutritionInfo.split(",");
-
-
 
 
     return Scaffold(
@@ -220,8 +213,6 @@ class _IndividualRecipeState extends State<IndividualRecipe> {
                   ),
               ),
             ),
-
-
 
           ],
         ),

@@ -1,6 +1,5 @@
 class FoodResponseModel {
 
-  //final String _id;
   final String name;
   final String ingredients;
   final String method;
@@ -14,14 +13,12 @@ class FoodResponseModel {
   final String imageUrl;
 
   FoodResponseModel(
-      //this._id,
       this.name, this.ingredients, this.method, this.nutritionInfo,
       this.country, this.tags, this.prepTime, this.cookTime, this.difficultyLevel,
       this.servings, this.imageUrl);
 
   FoodResponseModel.fromJson(Map<String, dynamic> json)
       :
-  // _id = json['_id'],
         name = json['name'].toString(),
         ingredients = json['ingredients'].toString(),
         method = json['method'].toString(),
@@ -77,18 +74,3 @@ class GetCustomisedRecipesResponseModel {
       : recipes = json['recipes'], country = json['country'], foodPreferences = json['food_preferences'];
 
 }
-
-// class FoodRequestModel {
-//   String email;
-//   String password;
-//
-//   FoodRequestModel(this.email, this.password);
-//
-//   Map <String, dynamic> toJson() {
-//
-//     Map<String, dynamic> map = {'email': email.trim(), 'password': password.trim()};
-//     return map;
-//   }
-//
-//
-// }

@@ -25,15 +25,6 @@ class _LandingPageState extends State<LandingPage> {
     ),
         body:
 
-        // Padding(
-        //     padding: const EdgeInsets.all(15),
-        //     child:
-
-    // Padding(
-    //   padding: const EdgeInsets.all(20),
-      // child: SingleChildScrollView(
-         //child:
-
         Column(
                   children: <Widget>[
 
@@ -53,13 +44,10 @@ class _LandingPageState extends State<LandingPage> {
                     ),
 
                     Padding(
-                      padding: EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(20),
                       child:
-
-                      // Container(
-                      //   child:
                         ElevatedButton(
-                          style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, minimumSize: Size(500, 40),),
+                          style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, minimumSize: const Size(500, 40),),
                           child: const Text('Create Account'),
                           onPressed: (){
                             Navigator.pushNamed(context, '/sign_up');
@@ -68,17 +56,12 @@ class _LandingPageState extends State<LandingPage> {
 
                       ),
 
-                    //),
-
-                    // const SizedBo//   height: 10,
-                    // ),
-
                     Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
 
                       child: ElevatedButton(
 
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, minimumSize: Size(500, 40)),
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, minimumSize: const Size(500, 40)),
                         child: const Text('Login'),
                         onPressed: (){
                           Navigator.pushNamed(context, '/sign_in');
@@ -87,9 +70,6 @@ class _LandingPageState extends State<LandingPage> {
                     ),
                   ],
                 ),
-      //),
-    //)
-        //)
     );
 
 

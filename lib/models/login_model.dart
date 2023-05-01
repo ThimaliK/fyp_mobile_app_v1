@@ -6,11 +6,6 @@ class LoginResponseModel {
 
   LoginResponseModel(this.username, this.bmi, this.email);
 
-  // factory LoginResponseModel.fromJson(Map<String, dynamic> json) {
-  //
-  //   return LoginResponseModel(response: json["response"] ?? "");
-  // }
-
   LoginResponseModel.fromJson(Map<String, dynamic> json)
       : username = json['username'], bmi = json['bmi'].toString(), email = json['email'];
 

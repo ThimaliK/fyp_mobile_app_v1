@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_mobile_app_v1/models/login_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'api/api_service.dart';
 
 class Home extends StatefulWidget {
@@ -15,11 +13,7 @@ class _HomeState extends State<Home> {
 
   String currentUsername = "";
   String currentBmi = "";
-
   APIService apiService = APIService();
-
-  //Map data = {};
-
   late Future <LoginResponseModel> _response;
 
 
@@ -28,42 +22,15 @@ class _HomeState extends State<Home> {
     // TODO: implement initState
     super.initState();
 
-    // APIService apiService = APIService();
-    // apiService.getUserInfo().then((value) => {
-    //   if(value.username.isNotEmpty) {
-    //
-    //     setState(() {
-    //       currentUsername = value.username;
-    //       currentBmi = value.bmi;
-    //     })
-    //
-    //   }
-    // });
-
-
-
-
   }
 
   @override
   Widget build(BuildContext context) {
 
-    // if (data.isNotEmpty) {
-    //   data = data;
-    // } else {
-
-      // print('getting route data---------------------');
-      // data = ModalRoute.of(context)?.settings.arguments as Map;
-
-
-
-    //}
-
     setState(() {
 
       _response = apiService.loadLoginData();
     });
-
 
 
     return Scaffold(
@@ -88,14 +55,14 @@ class _HomeState extends State<Home> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     const SizedBox(height: 5,),
-                    Text('Hi ${snapshot.data!.username}, Welcome Back!', style: TextStyle(fontSize: 18),
+                    Text('Hi ${snapshot.data!.username}, Welcome Back!', style: const TextStyle(fontSize: 18),
                       textAlign: TextAlign.center,),
                     const SizedBox(height: 10,),
 
                     GestureDetector(
                       child:
                       SizedBox(
-                        height: 200,
+                        height: 210,
                         child:
 
                         Card(
@@ -111,6 +78,7 @@ class _HomeState extends State<Home> {
                                       "Take photos of ingredients to find Healthy Recipes!", textAlign: TextAlign.center,),
                                   ),
                                 ),
+
                                 IconButton(onPressed: () {
                                   Navigator.pushNamed(context, '/camera_input', arguments: {'email': snapshot.data!.email, 'username': snapshot.data!.username, 'bmi': snapshot.data!.bmi});
                                 },
@@ -130,7 +98,7 @@ class _HomeState extends State<Home> {
                     GestureDetector(
                       child:
                       SizedBox(
-                        height: 200,
+                        height: 210,
                         child:
 
                         Card(
@@ -197,10 +165,9 @@ class _HomeState extends State<Home> {
               }else if (snapshot.hasError) {
                 return Text("${snapshot.error}");
               }
-              return CircularProgressIndicator(color: Colors.deepPurple,);
+              return const CircularProgressIndicator(color: Colors.deepPurple,);
 
             }
-
 
           ),
         ),

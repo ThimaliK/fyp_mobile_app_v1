@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:fyp_mobile_app_v1/api/api_service.dart';
 import 'package:fyp_mobile_app_v1/models/food_model.dart';
@@ -14,16 +13,8 @@ class RecipeList extends StatefulWidget {
 class _RecipeListState extends State<RecipeList> {
 
   Map data = {};
-
   APIService apiService = APIService();
-
-  //late List<FoodResponseModel> recipes;
-
-  late Future <List<FoodResponseModel>> _recipes;
-
   late Future <GetRecipesResponseModel> _response;
-
-
 
   @override
   void initState() {
@@ -80,7 +71,7 @@ class _RecipeListState extends State<RecipeList> {
                       //
 
                       Padding(
-                        padding: EdgeInsets.fromLTRB(0, 0, 30, 20),
+                        padding: const EdgeInsets.fromLTRB(0, 0, 30, 20),
                         child: Container(
                           alignment: Alignment.centerRight,
                           height: 70,
@@ -118,19 +109,12 @@ class _RecipeListState extends State<RecipeList> {
       } else {
         data = ModalRoute.of(context)?.settings.arguments as Map;
       }
-      print("DATAAAAA:    "+data.toString());
-      // _recipes = data["recipe_data"];
 
        _response = apiService.foodRecognition(data['photos']);
 
 
     });
 //
-
-
-
-
-
 
     return Scaffold(
       appBar: AppBar(title: const Text('Recipe Suggestions'), backgroundColor: Colors.deepPurple,),
@@ -146,12 +130,8 @@ class _RecipeListState extends State<RecipeList> {
                   SingleChildScrollView(
                     child: FutureBuilder<GetRecipesResponseModel> (
                       future: _response,
-                      //initialData: [],
                       builder: (context, snapshot) {
 
-                        // if(snapshot.data==null) {
-                        //   return const CircularProgressIndicator(color: Colors.deepPurple,);
-                        // }
                         if(snapshot.hasData) {
 
                           var x = jsonEncode(snapshot.data!.recipes);
@@ -171,41 +151,15 @@ class _RecipeListState extends State<RecipeList> {
                               child: Column(
 
                                 children: [
-                                  // Text(snapshot.data!.first.ingredients),
-                                  // SizedBox(height: 10.0,),
-                                  // Text(snapshot.data!.first.name)
-
 
                                   Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                                       child: Text("Recognised Ingredients: $recognisedIngredients",
-                                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)
+                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)
                                   ),
 
 
                                   getRecipeWidgets(recipes),
-
-                                  // ElevatedButton(
-                                  //   style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
-                                  //   child: const Text('Find Customised Recipes'),
-                                  //   onPressed: (){
-                                  //
-                                  //     Navigator.pushNamed(context, '/customised_recipe_list',
-                                  //         arguments: {'photos': data['photos'], 'email': data['email'], 'username': data['username'], 'bmi': data['bmi']});
-                                  //
-                                  //     //APIService apiService = APIService();  //
-                                  //
-                                  //     // apiService.customisedRecipes(data['photos'], data['email']).then((value) => {
-                                  //     //   if(value.isNotEmpty && value=="5_cutomised_recipes_extracted") {
-                                  //     //
-                                  //     //
-                                  //     //   }
-                                  //     // });
-                                  //
-                                  //     //
-                                  //
-                                  //   },
-                                  // ),
 
                                 ],
                               ),
@@ -218,13 +172,11 @@ class _RecipeListState extends State<RecipeList> {
                           Container(
                             height: 200,
                             alignment: Alignment.center,
-                              child: CircularProgressIndicator(color: Colors.deepPurple,)
+                              child: const CircularProgressIndicator(color: Colors.deepPurple,)
                           );
                       },
                     ),
                   ),
-
-
 
                 ]
             ),

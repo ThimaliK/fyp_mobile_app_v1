@@ -13,10 +13,7 @@ class CustomisedRecipeList extends StatefulWidget {
 class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
 
   Map data = {};
-
   APIService apiService = APIService();
-
-  //late List<FoodResponseModel> recipes;
 
   late Future <GetCustomisedRecipesResponseModel> _response;
 
@@ -63,19 +60,15 @@ class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      //
+
                       Flexible(
                         child: ListTile(
                           title: Text(recipes[i].name),
                         ),
                       ),
-                      // Flexible(child: Text("Ingredients"),),
-                      // getTextWidgets(ingredientList),
-
-                      //
 
                       Padding(
-                        padding: EdgeInsets.fromLTRB(0, 0, 30, 20),
+                        padding: const EdgeInsets.fromLTRB(0, 0, 30, 20),
                         child: Container(
                           alignment: Alignment.centerRight,
                           height: 70,
@@ -113,19 +106,9 @@ class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
       } else {
         data = ModalRoute.of(context)?.settings.arguments as Map;
       }
-      print("DATAAAAA:    "+data.toString());
-      // _recipes = data["recipe_data"];
-
-      print("sending email: ${data["email"]}");
-
-      //
-
       _response = apiService.getCustomisedRecipes(data['email']);
 
-
     });
-
-
 
 
     return Scaffold(
@@ -148,7 +131,7 @@ class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
                             Container(
                                 height: 200,
                                 alignment: Alignment.center,
-                                child: CircularProgressIndicator(color: Colors.deepPurple,)
+                                child: const CircularProgressIndicator(color: Colors.deepPurple,)
                             );
                         }
                         else if(snapshot.hasData) {
@@ -167,24 +150,14 @@ class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
                               child: Column(
 
                                 children: [
-                                  // Text(snapshot.data!.first.ingredients),
-                                  // SizedBox(height: 10.0,),
-                                  // Text(snapshot.data!.first.name)
-
-                                  // SizedBox(
-                                  //   height: 40,
-                                  //   child: Text(snapshot.data!.foodPreferences + snapshot.data!.country),
-                                  // ),
 
                                   Padding(
-                                      padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
-                                      child: Text("Recipes based on : ${snapshot.data!.foodPreferences + ", " + snapshot.data!.country}",
-                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)
+                                      padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+                                      child: Text("Recipes based on : ${"${snapshot.data!.foodPreferences}, ${snapshot.data!.country}"}",
+                                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),)
                                   ),
 
                                   getRecipeWidgets(recipes)
-
-                                  //
 
                                 ],
                               ),
@@ -197,20 +170,11 @@ class _CustomisedRecipeListState extends State<CustomisedRecipeList> {
                           Container(
                               height: 200,
                               alignment: Alignment.center,
-                              child: CircularProgressIndicator(color: Colors.deepPurple,)
+                              child: const CircularProgressIndicator(color: Colors.deepPurple,)
                           );
                       },
                     ),
                   ),
-
-                  // ElevatedButton(
-                  //   style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, maximumSize: const Size.fromHeight(50)),
-                  //   child: const Text('Back to recipes based on ingredients'),
-                  //   onPressed: (){
-                  //
-                  //     Navigator.pushNamed(context, '/recipe_list', arguments: {'photos': data['photos'], 'email': data['email'], 'bmi': data['bmi'], 'username': data['username']});
-                  //   },
-                  // ),//
 
                 ]
             ),

@@ -6,8 +6,6 @@ import 'package:chips_choice_null_safety/chips_choice_null_safety.dart';
 import 'dart:core';
 import 'package:email_validator/email_validator.dart';
 
-//
-
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
@@ -24,8 +22,6 @@ class _SignUpState extends State<SignUp> {
   'Italian cuisine', 'Egg-free', 'Dairy-free', ];
 
   String validationMessage = "";
-
-  //int tag = 0;
 
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
@@ -225,7 +221,6 @@ class _SignUpState extends State<SignUp> {
                           //Optional. Shows phone code before the country name.
                           showPhoneCode: false,
                           onSelect: (Country country) {
-                            print('Select country: ${country.displayName}');
                             setState(() {
                               selectedCountry = country.displayName.split("(").first.toString().trim();
 
@@ -234,7 +229,6 @@ class _SignUpState extends State<SignUp> {
                           },
                           // Optional. Sets the theme for the country list picker.
                           countryListTheme: CountryListThemeData(
-                            // Optional. Sets the border radius for the bottomsheet.
                             borderRadius: const BorderRadius.only(
                               topLeft: Radius.circular(40.0),
                               topRight: Radius.circular(40.0),
@@ -259,7 +253,7 @@ class _SignUpState extends State<SignUp> {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white, minimumSize: Size(500, 50),
+                          backgroundColor: Colors.white, minimumSize: const Size(500, 50),
                           side: const BorderSide(
                           width: 1, // the thickness
                           color: Colors.black54 // the color of the border
@@ -269,7 +263,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
 
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                       child: Text("Please select your food preferences:", style: TextStyle(fontWeight: FontWeight.bold),)
                   ),
@@ -293,7 +287,7 @@ class _SignUpState extends State<SignUp> {
                     child: Text(validationMessage, style: const TextStyle(color: Colors.red),)
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(15, 0, 15, 15),
+                    padding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
                     child: ElevatedButton(
                       onPressed: (){
 
@@ -338,13 +332,7 @@ class _SignUpState extends State<SignUp> {
 
                           });
 
-                          print(requestModel.toJson());
-
                           APIService apiService = APIService();
-
-                          print('api service created');
-
-                          print("THE TAGS ---------${tags.toString()}");
 
                           apiService.register(requestModel).then((value) => {
                             if(value.response.isNotEmpty) {
@@ -361,7 +349,7 @@ class _SignUpState extends State<SignUp> {
                         }
 
                       },
-                      style: ElevatedButton.styleFrom(primary: Colors.deepPurple, minimumSize: Size(500, 40)),
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, minimumSize: const Size(500, 40)),
                       child: const Text('Create Account')
                     ),
                   ),

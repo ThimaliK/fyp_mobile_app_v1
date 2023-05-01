@@ -2,7 +2,6 @@ class SignupResponseModel {
 
   final String response;
 
-
   SignupResponseModel(this.response);
 
   SignupResponseModel.fromJson(Map<String, dynamic> json)

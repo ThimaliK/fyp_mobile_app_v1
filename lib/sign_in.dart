@@ -20,7 +20,6 @@ class _SignInState extends State<SignIn> {
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
 
     emailController.dispose();
     passwordController.dispose();
@@ -33,12 +32,9 @@ class _SignInState extends State<SignIn> {
   @override
   void initState() {
     super.initState();
-
     requestModel = LoginRequestModel(emailController.text, passwordController.text);
 
-
   }
-
 
 
   @override
@@ -107,9 +103,9 @@ class _SignInState extends State<SignIn> {
                   ),
 
                   Padding(
-                    padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                    padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, minimumSize: Size(500, 40)),
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.deepPurple, minimumSize: const Size(500, 40)),
                       onPressed: (){
                         String email = emailController.text;
                         String password = passwordController.text;
@@ -124,22 +120,14 @@ class _SignInState extends State<SignIn> {
                         setState(() {
 
                         });
-                        print(requestModel.toJson());
 
                         APIService apiService = APIService();
-                        print('api service created');
 
                         apiService.login(requestModel).then((value) => {
                           if(value.email.isNotEmpty) {
-                            // if(value.response == "logged in") {
                               Navigator.pushNamed(context, '/home',
                                   arguments: {'username': value.username, 'bmi': value.bmi, 'email': value.email})
-                            // } else {
-                            //   print("wrong${value.response}"),
-                            //   setState(() {
-                            //     message = value.response;
-                            //   })
-                            // }
+
                           } else {
                             setState(() {
 

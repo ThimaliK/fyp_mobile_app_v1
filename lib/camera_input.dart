@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fyp_mobile_app_v1/models/food_model.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'api/api_service.dart';
-
 
 class CameraInput extends StatefulWidget {
   const CameraInput({Key? key}) : super(key: key);
@@ -14,12 +12,8 @@ class CameraInput extends StatefulWidget {
 
 class _CameraInputState extends State<CameraInput> {
 
-
-
   Map routeData = {};
-
   File _image = File('assets/logo.png');
-
   List <File> _images = [];
 
   @override
@@ -31,17 +25,10 @@ class _CameraInputState extends State<CameraInput> {
     super.initState();
   }
 
-  //String data = "test";
-
   String foodRecognitionStatus = "";
 
   late List <FoodResponseModel> recipes;
-
-  //
   final imagePicker = ImagePicker();
-
-  //
-
 
   Future getImage() async {
     final image = await imagePicker.pickImage(source: ImageSource.camera);
@@ -58,7 +45,6 @@ class _CameraInputState extends State<CameraInput> {
     setState(() {
       _image = File(image!.path);
       _images.add(_image);
-      //getImage();
     });
 
   }
@@ -151,13 +137,13 @@ class _CameraInputState extends State<CameraInput> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                        padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                         child: ElevatedButton(
                             onPressed: () {
                               getImagesFromGallery();
                             },
                             style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white70, minimumSize: Size(172, 40),
+                                backgroundColor: Colors.white70, minimumSize: const Size(172, 40),
                                 side: const BorderSide(
                                     width: 1, // the thickness
                                     color: Colors.black // the color of the border
@@ -176,7 +162,7 @@ class _CameraInputState extends State<CameraInput> {
                         },
 
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white70, minimumSize: Size(172, 40),
+                            backgroundColor: Colors.white70, minimumSize: const Size(172, 40),
                           shadowColor: Colors.black,
                             side: const BorderSide(
                                 width: 1, // the thickness
@@ -185,7 +171,6 @@ class _CameraInputState extends State<CameraInput> {
                         ),
                         child: const Text('Camera', style: TextStyle(color: Colors.black),),
                       ),
-                      //SizedBox(height: 10.0,),
 
                     ],
                   ),
@@ -193,7 +178,7 @@ class _CameraInputState extends State<CameraInput> {
                   const SizedBox(height: 15,),
 
                   Padding(
-                    padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                     child: ElevatedButton(
                         onPressed: () {
 
@@ -206,32 +191,12 @@ class _CameraInputState extends State<CameraInput> {
                             Navigator.pushNamed(context, '/recipe_list',
                                 arguments: {'photos': _images, 'email': routeData['email'], 'username': routeData['username'], 'bmi': routeData['bmi']});
 
-                            // APIService apiService = APIService();
-                            //
-                            // //print('api service created');
-                            //
-                            // apiService.foodRecognition(_images).then((value) => {
-                            //   if(value.isNotEmpty) {
-                            //
-                            //     print("IMAGES LIST LENGTH------------------${_images.length}"),
-                            //
-                            //     print("recipe one - title ${value.first.name}"),
-                            //
-                            //     print("imagesssss${_images.toString()}"),
-                            //
-                            //     Navigator.pushNamed(context, '/recipe_list',
-                            //         arguments: {'photos': _images, 'email': routeData['email'], 'username': routeData['username'], 'bmi': routeData['bmi'], 'recipe_data': value})
-                            //   }
-                            // });
-
-                            //print('foodRecognitionStatus - $foodRecognitionStatus');
-
                           }
 
 
                         },
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.deepPurple, minimumSize: Size(500, 40)),
+                            backgroundColor: Colors.deepPurple, minimumSize: const Size(500, 40)),
                         child: const Text('Find Recipes')
                     ),
                   ),
